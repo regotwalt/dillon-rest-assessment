@@ -4,3 +4,7 @@ rest-sample.iml
 derby.log
 env.sh
 test.sh
+
+# InteliJ Files
+src/main/main.iml
+src/test/test.iml
