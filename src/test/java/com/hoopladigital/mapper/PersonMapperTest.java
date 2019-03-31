@@ -35,4 +35,37 @@ public class PersonMapperTest extends AbstractMapperTest {
 
 	}
 
+	@Test
+	public void should_get_person_by_id() throws Exception {
+
+		// setup
+		final long queriedId = 6L;
+
+		final Person expected = new Person();
+		expected.setId(queriedId);
+		expected.setFirstName("John");
+		expected.setMiddleName("Quincy");
+		expected.setLastName("Adams");
+
+		// run test
+		final Person actual = personMapper.getPersonById(queriedId);
+
+		// assert results
+		assertNotNull(actual);
+		beanTestHelper.diffBeans(expected, actual);
+	}
+
+	@Test
+	public void should_get_person_by_id_invalid_id() {
+
+		// setup
+		final long queriedId = 1_000L;
+
+		// run test
+		final Person actual = personMapper.getPersonById(queriedId);
+
+		// assert results
+		assertNull(actual);
+	}
+
 }

@@ -14,4 +14,14 @@
 		order by id
 	</select>
 
+	<select id="getPersonById" parameterType="long" resultType="Person" >
+		select
+			id,
+			firstName,
+			middleName,
+			lastName
+		from Person
+		where id = #{id}
+	</select>
+
 </mapper>

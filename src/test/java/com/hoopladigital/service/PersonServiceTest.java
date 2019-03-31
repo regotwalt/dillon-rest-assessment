@@ -46,4 +46,41 @@ public class PersonServiceTest extends AbstractTest {
 
 	}
 
+	@Test
+	public void should_get_person_by_id() {
+
+		// setup
+		final long queriedId = 1L;
+		final Person expected = new Person();
+		when(personMapper.getPersonById(queriedId)).thenReturn(expected);
+
+		// run test
+		final Person actual = personService.getPersonById(queriedId);
+
+		// verify mocks / capture values
+		verify(personMapper).getPersonById(queriedId);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void should_get_person_by_id_invalid_id() {
+
+		// setup
+		final long queriedId = 1_000L;
+		when(personMapper.getPersonById(queriedId)).thenReturn(null);
+
+		// run test
+		final Person actual = personService.getPersonById(queriedId);
+
+		// verify mocks / capture values
+		verify(personMapper).getPersonById(queriedId);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
 }

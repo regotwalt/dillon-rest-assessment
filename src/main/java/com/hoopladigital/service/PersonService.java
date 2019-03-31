@@ -19,4 +19,8 @@ public class PersonService {
 		return personMapper.getPersonList();
 	}
 
+	public Person getPersonById(Long id) {
+		return personMapper.getPersonById(id);
+	}
+
 }
