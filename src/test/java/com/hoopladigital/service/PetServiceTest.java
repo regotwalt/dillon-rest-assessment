@@ -44,4 +44,41 @@ public class PetServiceTest extends AbstractTest {
 		// assert results
 		assertEquals(expected, actual);
 	}
+
+	@Test
+	public void should_get_pet_by_id() {
+
+		// setup
+		final long queriedId = 1L;
+		final Pet expected = new Pet();
+		when(petMapper.getPetById(queriedId)).thenReturn(expected);
+
+		// run test
+		final Pet actual = petService.getPetById(queriedId);
+
+		// verify mocks / capture values
+		verify(petMapper).getPetById(queriedId);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void should_get_pet_by_id_invalid_id() {
+
+		// setup
+		final long queriedId = 1_000L;
+		when(petMapper.getPetById(queriedId)).thenReturn(null);
+
+		// run test
+		final Pet actual = petService.getPetById(queriedId);
+
+		// verify mocks / capture values
+		verify(petMapper).getPetById(queriedId);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
 }

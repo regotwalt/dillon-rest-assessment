@@ -13,4 +13,13 @@
 		order by personId, id
 	</select>
 
+	<select id="getPetById" parameterType="long" resultType="Pet">
+		select
+			id,
+			personId,
+			name
+		from Pet
+		where id = #{id}
+	</select>
+
 </mapper>

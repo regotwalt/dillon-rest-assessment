@@ -18,4 +18,8 @@ public class PetService {
 	public List<Pet> getPetList() {
 		return petMapper.getPetList();
 	}
+
+	public Pet getPetById(Long id) {
+		return petMapper.getPetById(id);
+	}
 }

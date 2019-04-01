@@ -7,5 +7,6 @@ import java.util.List;
 public interface PetMapper {
 
 	List<Pet> getPetList();
+	Pet getPetById(Long id);
 
 }

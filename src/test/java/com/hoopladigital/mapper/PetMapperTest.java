@@ -32,4 +32,36 @@ public class PetMapperTest extends AbstractMapperTest {
 		beanTestHelper.diffBeans(expectedFirst, petList.get(0));
 	}
 
+	@Test
+	public void should_get_pet_by_id() throws Exception {
+
+		// setup
+		final long queriedId = 14L;
+
+		final Pet expected = new Pet();
+		expected.setId(queriedId);
+		expected.setPersonId(1L);
+		expected.setName("Lady Rover");
+
+		// run test
+		final Pet actual = petMapper.getPetById(queriedId);
+
+		// assert results
+		assertNotNull(actual);
+		beanTestHelper.diffBeans(expected, actual);
+	}
+
+	@Test
+	public void should_get_pet_by_id_invalid_id() {
+
+		// setup
+		final long queriedId = 1_000L;
+
+		// run test
+		final Pet actual = petMapper.getPetById(queriedId);
+
+		// assert results
+		assertNull(actual);
+	}
+
 }
