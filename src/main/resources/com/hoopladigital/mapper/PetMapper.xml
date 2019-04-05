@@ -22,4 +22,16 @@
 		where id = #{id}
 	</select>
 
+	<insert id="createPet" useGeneratedKeys="true" keyProperty="id">
+		insert
+		into Pet (
+			personId,
+			name
+		)
+		values (
+			#{personId},
+			#{name}
+		)
+	</insert>
+
 </mapper>

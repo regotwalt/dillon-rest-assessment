@@ -10,8 +10,12 @@ import org.mockito.Mock;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.ibatis.exceptions.PersistenceException;
+
 import static com.hoopladigital.test.MockHelper.allDeclaredMocks;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -81,4 +85,76 @@ public class PetServiceTest extends AbstractTest {
 		// assert results
 		assertNull(actual);
 	}
+
+	@Test
+	public void should_create_pet() {
+
+		// setup
+		final Pet pet = new Pet();
+		doNothing().when(petMapper).createPet(pet);
+
+		// run test
+		final Pet actual = petService.createPet(pet);
+
+		// verify mocks / capture values
+		verify(petMapper).createPet(pet);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNotNull(actual);
+	}
+
+	@Test
+	public void should_create_pet_null_pet() {
+
+		// run test
+		final Pet actual = petService.createPet(null);
+
+		// verify mocks / capture values
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
+	public void should_create_pet_null_person_id() {
+
+		// setup
+		final Pet pet = new Pet();
+		pet.setPersonId(null);
+
+		doThrow(new PersistenceException()).when(petMapper).createPet(pet);
+
+		// run test
+		final Pet actual = petService.createPet(pet);
+
+		// verify mocks / capture values
+		verify(petMapper).createPet(pet);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
+	public void should_create_pet_invalid_person_id() {
+
+		// setup
+		final Pet pet = new Pet();
+		pet.setPersonId(1_000L);
+
+		doThrow(new PersistenceException()).when(petMapper).createPet(pet);
+
+		// run test
+		final Pet actual = petService.createPet(pet);
+
+		// verify mocks / capture values
+		verify(petMapper).createPet(pet);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
 }

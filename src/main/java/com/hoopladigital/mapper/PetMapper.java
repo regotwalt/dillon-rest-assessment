@@ -8,5 +8,6 @@ public interface PetMapper {
 
 	List<Pet> getPetList();
 	Pet getPetById(Long id);
+	void createPet(Pet pet);
 
 }

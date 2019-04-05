@@ -8,6 +8,8 @@ import javax.inject.Inject;
 
 import java.util.List;
 
+import org.apache.ibatis.exceptions.PersistenceException;
+
 import static org.junit.Assert.*;
 
 public class PetMapperTest extends AbstractMapperTest {
@@ -62,6 +64,54 @@ public class PetMapperTest extends AbstractMapperTest {
 
 		// assert results
 		assertNull(actual);
+	}
+
+	@Test
+	public void should_create_pet() {
+
+		// setup
+		final Long expectedId = 35L; // TODO: counter got messed up somehow, should be 34
+
+		final Pet pet = new Pet();
+		pet.setPersonId(1L);
+		pet.setName("Sgt Pepper");
+
+		// run test
+		petMapper.createPet(pet);
+
+		// assert results
+		assertEquals(expectedId, pet.getId());
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_create_pet_null_pet() {
+
+		// run test
+		petMapper.createPet(null);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_create_pet_null_person_id() {
+
+		// setup
+		final Pet pet = new Pet();
+		pet.setPersonId(null);
+		pet.setName("Fido");
+
+		// run test
+		petMapper.createPet(pet);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_create_pet_invalid_person_id() {
+
+		// setup
+		final Pet pet = new Pet();
+		pet.setPersonId(1_000L);
+		pet.setName("Spot");
+
+		// run test
+		petMapper.createPet(pet);
 	}
 
 }

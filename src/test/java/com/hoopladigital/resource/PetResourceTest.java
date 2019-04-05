@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.hoopladigital.test.MockHelper.allDeclaredMocks;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -81,5 +82,28 @@ public class PetResourceTest extends AbstractTest {
 
 		// assert results
 		assertNull(actual);
+	}
+
+	@Test
+	public void should_create_pet() {
+
+		// setup
+		final Long expectedId = 100L;
+
+		final Pet returned = new Pet();
+		returned.setId(expectedId);
+		returned.setPersonId(1L);
+		returned.setName("Jack");
+
+		when(petService.createPet(any(Pet.class))).thenReturn(returned);
+
+		// run test
+		final Pet actual = petResource.createPet(returned.getPersonId(), returned.getName());
+
+		// verify mocks / capture values
+		// TODO: Test the internals of the method w/o changing structure of PetResource (consistency)
+
+		// assert results
+		assertEquals(expectedId, actual.getId());
 	}
 }

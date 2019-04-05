@@ -5,6 +5,7 @@ import com.hoopladigital.service.PetService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -34,6 +35,19 @@ public class PetResource {
 		// TODO: Deal with response code (404 if invalid id)
 		// TODO: Test endpoint
 		return petService.getPetById(id);
+	}
+
+	@POST
+	@Produces("application/json")
+	public Pet createPet(@PathParam("personId") Long personId, @PathParam("name") String name) {
+		// TODO: Test endpoint
+		// TODO: MISSING REQUIREMENTS: Should any validation be done on name?
+
+		final Pet pet = new Pet();
+		pet.setPersonId(personId);
+		pet.setName(name);
+
+		return petService.createPet(pet);
 	}
 
 }
