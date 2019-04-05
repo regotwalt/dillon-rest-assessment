@@ -24,4 +24,18 @@
 		where id = #{id}
 	</select>
 
+	<insert id="createPerson" useGeneratedKeys="true" keyProperty="id">
+		insert
+		into Person (
+			firstName,
+			middleName,
+			lastName
+		)
+		values (
+			#{firstName},
+			#{middleName},
+			#{lastName}
+		)
+	</insert>
+
 </mapper>

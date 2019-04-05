@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.hoopladigital.test.MockHelper.allDeclaredMocks;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -77,6 +78,37 @@ public class PersonServiceTest extends AbstractTest {
 
 		// verify mocks / capture values
 		verify(personMapper).getPersonById(queriedId);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
+	public void should_create_person() {
+
+		// setup
+		final Person person = new Person();
+		doNothing().when(personMapper).createPerson(person);
+
+		// run test
+		final Person actual = personService.createPerson(person);
+
+		// verify mocks / capture values
+		verify(personMapper).createPerson(person);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNotNull(actual);
+	}
+
+	@Test
+	public void should_create_person_null_person() {
+
+		// run test
+		final Person actual = personService.createPerson(null);
+
+		// verify mocks / capture values
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results

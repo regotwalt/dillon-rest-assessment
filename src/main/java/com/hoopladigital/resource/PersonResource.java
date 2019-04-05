@@ -5,6 +5,7 @@ import com.hoopladigital.service.PersonService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -33,6 +34,22 @@ public class PersonResource {
 		// TODO: Deal with response code (404 if invalid id)
 		// TODO: Test endpoint
 		return personService.getPersonById(id);
+	}
+
+	@POST
+	@Produces("application/json")
+	public Person createPerson(@PathParam("firstName") String firstName,
+							   @PathParam("middleName") String middleName,
+							   @PathParam("lastName") String lastName) {
+		// TODO: Test endpoint
+		// TODO: MISSING REQUIREMENTS: Should any validation be done on first/middle/last names?
+
+		final Person person = new Person();
+		person.setFirstName(firstName);
+		person.setMiddleName(middleName);
+		person.setLastName(lastName);
+
+		return personService.createPerson(person);
 	}
 
 }

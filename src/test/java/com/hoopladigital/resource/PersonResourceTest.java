@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.hoopladigital.test.MockHelper.allDeclaredMocks;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -82,6 +83,30 @@ public class PersonResourceTest extends AbstractTest {
 
 		// assert results
 		assertNull(actual);
+	}
+
+	@Test
+	public void should_create_person() throws Exception {
+
+		// setup
+		final Long expectedId = 25L;
+
+		final Person returned = new Person();
+		returned.setId(expectedId);
+		returned.setFirstName("Jean");
+		returned.setMiddleName("Paul");
+		returned.setLastName("Gaultier");
+
+		when(personService.createPerson(any(Person.class))).thenReturn(returned);
+
+		// run test
+		final Person actual = personResource.createPerson(returned.getFirstName(), returned.getMiddleName(), returned.getLastName());
+
+		// verify mocks / capture values
+		// TODO: Test the internals of method w/o changing structure of PersonResource
+
+		// assert results
+		assertEquals(expectedId, actual.getId());
 	}
 
 }

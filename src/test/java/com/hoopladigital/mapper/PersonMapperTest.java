@@ -8,6 +8,8 @@ import javax.inject.Inject;
 
 import java.util.List;
 
+import org.apache.ibatis.exceptions.PersistenceException;
+
 import static org.junit.Assert.*;
 
 public class PersonMapperTest extends AbstractMapperTest {
@@ -66,6 +68,31 @@ public class PersonMapperTest extends AbstractMapperTest {
 
 		// assert results
 		assertNull(actual);
+	}
+
+	@Test
+	public void should_create_person() throws Exception {
+
+		// setup
+		final Long expectedId = 11L;
+
+		final Person person = new Person();
+		person.setFirstName("John");
+		person.setMiddleName("Jacob");
+		person.setLastName("Smith");
+
+		// run test
+		personMapper.createPerson(person);
+
+		// assert results
+		assertEquals(expectedId, person.getId());
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_create_person_null_person() {
+
+		// run test
+		personMapper.createPerson(null);
 	}
 
 }

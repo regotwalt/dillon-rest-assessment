@@ -23,4 +23,10 @@ public class PersonService {
 		return personMapper.getPersonById(id);
 	}
 
+	public Person createPerson(Person person) {
+		if (person == null) return null;
+		personMapper.createPerson(person);
+		return person;
+	}
+
 }
