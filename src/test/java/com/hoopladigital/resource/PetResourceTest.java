@@ -106,4 +106,25 @@ public class PetResourceTest extends AbstractTest {
 		// assert results
 		assertEquals(expectedId, actual.getId());
 	}
+
+	@Test
+	public void should_update_pet() {
+
+		// setup
+		final Pet expected = new Pet();
+		expected.setId(1L);
+		expected.setPersonId(1L);
+		expected.setName("Fuzzy Bear");
+
+		when(petService.updatePet(any(Pet.class))).thenReturn(expected);
+
+		// run test
+		final Pet actual = petResource.updatePet(expected.getId(), expected.getPersonId(), expected.getName());
+
+		// verify mocks / capture values
+		// TODO: Test the internals of the methods w/o changing structure of PetResource
+
+		// assert result
+		assertEquals(expected, actual);
+	}
 }

@@ -157,4 +157,53 @@ public class PetServiceTest extends AbstractTest {
 		assertNull(actual);
 	}
 
+	@Test
+	public void should_update_pet() {
+
+		// setup
+		final Pet expected = new Pet();
+		doNothing().when(petMapper).updatePet(expected);
+
+		// run test
+		final Pet actual = petService.updatePet(expected);
+
+		// verify mocks / capture values
+		verify(petMapper).updatePet(expected);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void should_update_pet_null_pet() {
+
+		// run test
+		final Pet actual = petService.updatePet(null);
+
+		// verify mocks / capture values
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
+	public void should_update_pet_invalid_pet() {
+
+		// setup
+		final Pet pet = new Pet();
+		doThrow(new PersistenceException()).when(petMapper).updatePet(pet);
+
+		// run test
+		final Pet actual = petService.updatePet(pet);
+
+		// verify mocks / capture values
+		verify(petMapper).updatePet(pet);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
 }

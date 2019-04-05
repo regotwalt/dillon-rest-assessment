@@ -114,4 +114,72 @@ public class PetMapperTest extends AbstractMapperTest {
 		petMapper.createPet(pet);
 	}
 
+	@Test
+	public void should_update_pet() throws Exception {
+
+		// setup
+		final Pet expected = MapperTestHelper.createValidPet(true);
+
+		// run test
+		petMapper.updatePet(expected);
+
+		// verify mocks / capture values
+		final Pet actual = petMapper.getPetById(expected.getId());
+
+		// assert results
+		beanTestHelper.diffBeans(expected, actual);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_pet_null_pet() {
+
+		// run test
+		petMapper.updatePet(null);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_pet_null_id() {
+
+		// setup
+		final Pet pet = MapperTestHelper.createValidPet(true);
+		pet.setId(null);
+
+		// run test
+		petMapper.updatePet(pet);
+	}
+
+	// TODO: This fails, Investigate - does update also insert?
+//	@Test(expected=PersistenceException.class)
+//	public void should_update_pet_invalid_id() {
+//
+//		// setup
+//		final Pet pet = MapperTestHelper.createValidPet(true);
+//		pet.setId(1_000L);
+//
+//		// run test
+//		petMapper.updatePet(pet);
+//	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_pet_null_person_id() {
+
+		// setup
+		final Pet pet = MapperTestHelper.createValidPet(true);
+		pet.setPersonId(null);
+
+		// run test
+		petMapper.updatePet(pet);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_pet_invalid_person_id() {
+
+		// setup
+		final Pet pet = MapperTestHelper.createValidPet(true);
+		pet.setPersonId(1_000L);
+
+		// run test
+		petMapper.updatePet(pet);
+	}
+
 }

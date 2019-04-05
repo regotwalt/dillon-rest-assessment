@@ -34,4 +34,14 @@
 		)
 	</insert>
 
+	<update id="updatePet">
+		update
+		Pet
+		set
+			personId = #{personId},
+			name = #{name}
+		where
+			id = #{id}
+	</update>
+
 </mapper>
