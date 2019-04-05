@@ -10,9 +10,12 @@ import org.mockito.Mock;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.ibatis.exceptions.PersistenceException;
+
 import static com.hoopladigital.test.MockHelper.allDeclaredMocks;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -109,6 +112,55 @@ public class PersonServiceTest extends AbstractTest {
 		final Person actual = personService.createPerson(null);
 
 		// verify mocks / capture values
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
+	public void should_update_person() {
+
+		// setup
+		final Person expected = new Person();
+		doNothing().when(personMapper).updatePerson(expected);
+
+		// run test
+		final Person actual = personService.updatePerson(expected);
+
+		// verify mocks / capture values
+		verify(personMapper).updatePerson(expected);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void should_update_person_null_person() {
+
+		// run test
+		final Person actual = personService.updatePerson(null);
+
+		// verify mocks / capture values
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
+	public void should_update_person_invalid_person() {
+
+		// setup
+		final Person person = new Person();
+		doThrow(new PersistenceException()).when(personMapper).updatePerson(person);
+
+		// run test
+		final Person actual = personService.updatePerson(person);
+
+		// verify mocks / capture values
+		verify(personMapper).updatePerson(person);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results

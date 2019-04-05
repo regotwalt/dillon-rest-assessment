@@ -8,4 +8,5 @@ public interface PersonMapper {
 	List<Person> getPersonList();
 	Person getPersonById(Long id);
 	void createPerson(Person person);
+	void updatePerson(Person person);
 }

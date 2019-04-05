@@ -6,6 +6,7 @@ import com.hoopladigital.service.PersonService;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -50,6 +51,26 @@ public class PersonResource {
 		person.setLastName(lastName);
 
 		return personService.createPerson(person);
+	}
+
+	@PUT
+	@Produces("application/json")
+	public Person updatePerson(@PathParam("id") Long id,
+							   @PathParam("firstName") String firstName,
+							   @PathParam("middleName") String middleName,
+							   @PathParam("lastName") String lastName) {
+
+		// TODO: Test endpoint
+		// TODO: MISSING REQUIREMENTS: Should any validation be done on first/middle/last names?
+		// TODO: Another option - make all fields optional, update only what's provided
+
+		final Person person = new Person();
+		person.setId(id);
+		person.setFirstName(firstName);
+		person.setMiddleName(middleName);
+		person.setLastName(lastName);
+
+		return personService.updatePerson(person);
 	}
 
 }

@@ -38,4 +38,15 @@
 		)
 	</insert>
 
+	<update id="updatePerson">
+		update
+		Person
+		set
+			firstName = #{firstName},
+			middleName = #{middleName},
+			lastName = #{lastName}
+		where
+			id = #{id}
+	</update>
+
 </mapper>

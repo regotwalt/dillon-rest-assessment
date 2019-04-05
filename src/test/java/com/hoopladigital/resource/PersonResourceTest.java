@@ -109,4 +109,26 @@ public class PersonResourceTest extends AbstractTest {
 		assertEquals(expectedId, actual.getId());
 	}
 
+	@Test
+	public void should_update_person() {
+
+		// setup
+		final Person person = new Person();
+		person.setId(1L);
+		person.setFirstName("Jean");
+		person.setMiddleName("Paul");
+		person.setLastName("Gaultier");
+
+		when(personService.updatePerson(any(Person.class))).thenReturn(person);
+
+		// run test
+		final Person actual = personResource.updatePerson(person.getId(), person.getFirstName(), person.getMiddleName(), person.getLastName());
+
+		// verify mocks / capture results
+		// TODO: Test the internals of the methods w/o changing structure of PersonResource
+
+		// assert results
+		assertEquals(person, actual);
+	}
+
 }

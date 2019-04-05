@@ -95,4 +95,51 @@ public class PersonMapperTest extends AbstractMapperTest {
 		personMapper.createPerson(null);
 	}
 
+	@Test
+	public void should_update_person() throws Exception {
+
+		// setup
+		final Person expected = new Person();
+		expected.setId(3L);
+		expected.setFirstName("John");
+		expected.setMiddleName("Rolph");
+		expected.setLastName("Smith");
+
+		// run test
+		personMapper.updatePerson(expected);
+
+		// assert results
+		final Person updated = personMapper.getPersonById(3L);
+		beanTestHelper.diffBeans(expected, updated);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_person_null_person() {
+
+		// run test
+		personMapper.updatePerson(null);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_person_null_person_id() {
+
+		// setup
+		final Person person = new Person();
+		person.setId(null);
+
+		// run test
+		personMapper.updatePerson(person);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_person_invalid_person_id() {
+
+		// setup
+		final Person person = new Person();
+		person.setId(1_000L);
+
+		// run test
+		personMapper.updatePerson(person);
+	}
+
 }
