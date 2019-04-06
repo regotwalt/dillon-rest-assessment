@@ -44,4 +44,11 @@
 			id = #{id}
 	</update>
 
+	<delete id="deletePet">
+		delete
+		from Pet
+		where
+			id = #{id}
+	</delete>
+
 </mapper>

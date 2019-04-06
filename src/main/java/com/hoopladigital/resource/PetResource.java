@@ -4,6 +4,7 @@ import com.hoopladigital.bean.Pet;
 import com.hoopladigital.service.PetService;
 
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -67,6 +68,18 @@ public class PetResource {
 		pet.setName(name);
 
 		return petService.updatePet(pet);
+	}
+
+	@DELETE
+	@Produces("application/json")
+	public boolean deletePet(@PathParam("id") Long id) {
+
+		// TODO: Test endpoint
+
+		Pet pet = new Pet();
+		pet.setId(id);
+
+		return petService.deletePet(pet);
 	}
 
 }

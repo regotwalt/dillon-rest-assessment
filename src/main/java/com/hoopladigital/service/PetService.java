@@ -47,4 +47,16 @@ public class PetService {
 		return pet;
 	}
 
+	public boolean deletePet(Pet pet) {
+		if (pet == null) return false;
+		try {
+			final int numberDeleted = petMapper.deletePet(pet);
+			// Future: Log WARN if numberDeleted>1 - would be unexpected
+			return numberDeleted > 0;
+		}
+		catch (PersistenceException pe) {
+			return false;
+		}
+	}
+
 }

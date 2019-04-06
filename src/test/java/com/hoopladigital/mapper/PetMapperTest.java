@@ -177,4 +177,68 @@ public class PetMapperTest extends AbstractMapperTest {
 		petMapper.updatePet(pet);
 	}
 
+	@Test
+	public void should_delete_pet() {
+
+		// setup
+		final Pet pet = petMapper.getPetById(10L);
+
+		// run test
+		final int rowsDeleted = petMapper.deletePet(pet);
+
+		// assert results
+		assertEquals(1, rowsDeleted);
+		assertEquals(32, petMapper.getPetList().size());
+		assertNull(petMapper.getPetById(pet.getId()));
+
+	}
+
+	@Test
+	public void should_delete_pet_modified_pet() {
+
+		// setup: createValidPet does not match DB entity except for ID
+		final Pet pet = MapperTestHelper.createValidPet(true);
+
+		// run test
+		final int rowsDeleted = petMapper.deletePet(pet);
+
+		// assert results
+		assertEquals(1, rowsDeleted);
+		assertEquals(32, petMapper.getPetList().size());
+		assertNull(petMapper.getPetById(pet.getId()));
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_delete_pet_null_pet() {
+
+		// run test
+		petMapper.deletePet(null);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_delete_pet_without_id() {
+
+		// setup: creating without ID
+		final Pet pet = MapperTestHelper.createValidPet(false);
+
+		// run test
+		petMapper.deletePet(pet);
+	}
+
+	@Test
+	public void should_delete_pet_with_invalid_id() {
+
+		// setup
+		final Pet pet = MapperTestHelper.createValidPet(false);
+		pet.setId(1_000L);
+
+		// run test
+		final int rowsDeleted = petMapper.deletePet(pet);
+
+		// assert results
+		assertEquals(0, rowsDeleted);
+		assertEquals(33, petMapper.getPetList().size());
+		assertNull(petMapper.getPetById(pet.getId()));
+	}
+
 }

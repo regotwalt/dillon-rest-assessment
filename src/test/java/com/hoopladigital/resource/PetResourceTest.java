@@ -127,4 +127,23 @@ public class PetResourceTest extends AbstractTest {
 		// assert result
 		assertEquals(expected, actual);
 	}
+
+	@Test
+	public void should_delete_pet() {
+
+		// setup
+		final Pet pet = new Pet();
+		pet.setId(5L);
+		when(petService.deletePet(any(Pet.class))).thenReturn(true);
+
+		// run test
+		final boolean deleted = petResource.deletePet(pet.getId());
+
+		// verify mocks / capture values
+		// TODO: Test the internals of the methods w/o changing the structure of PersonResource
+
+		// assert results
+		assertTrue(deleted);
+	}
+
 }

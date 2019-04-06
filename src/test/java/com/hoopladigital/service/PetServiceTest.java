@@ -206,4 +206,71 @@ public class PetServiceTest extends AbstractTest {
 		assertNull(actual);
 	}
 
+	@Test
+	public void should_delete_pet() {
+
+		// setup
+		final Pet pet = new Pet();
+		when(petMapper.deletePet(pet)).thenReturn(1);
+
+		// run test
+		final boolean deleted = petService.deletePet(pet);
+
+		// verify mocks / capture values
+		verify(petMapper).deletePet(pet);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertTrue(deleted);
+	}
+
+	@Test
+	public void should_delete_pet_no_deletion() {
+
+		// setup
+		final Pet pet = new Pet();
+		when(petMapper.deletePet(pet)).thenReturn(0);
+
+		// run test
+		final boolean deleted = petService.deletePet(pet);
+
+		// verify mocks / capture values
+		verify(petMapper).deletePet(pet);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertFalse(deleted);
+	}
+
+	@Test
+	public void should_delete_pet_null_pet() {
+
+		// run test
+		final boolean deleted = petService.deletePet(null);
+
+		// verify mocks / capture values
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertFalse(deleted);
+	}
+
+	@Test
+	public void should_delete_pet_invalid_pet() {
+
+		// setup
+		final Pet pet = new Pet();
+		doThrow(new PersistenceException()).when(petMapper).deletePet(pet);
+
+		// run test
+		final boolean deleted = petService.deletePet(pet);
+
+		// verify mocks / capture values
+		verify(petMapper).deletePet(pet);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertFalse(deleted);
+	}
+
 }
