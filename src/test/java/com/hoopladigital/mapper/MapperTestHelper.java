@@ -1,11 +1,21 @@
 package com.hoopladigital.mapper;
 
+import com.hoopladigital.bean.Person;
 import com.hoopladigital.bean.Pet;
 
-public class MapperTestHelper {
+class MapperTestHelper {
 
-	public static Pet createValidPet(boolean withId) {
-		Pet pet = new Pet();
+	static Person createValidPerson(boolean withId) {
+		final Person person = new Person();
+		person.setFirstName("John");
+		person.setMiddleName("James");
+		person.setLastName("Doe");
+		if (withId) person.setId(1L);
+		return person;
+	}
+
+	static Pet createValidPet(boolean withId) {
+		final Pet pet = new Pet();
 		pet.setPersonId(1L);
 		pet.setName("Scruffy");
 		if (withId) pet.setId(1L);

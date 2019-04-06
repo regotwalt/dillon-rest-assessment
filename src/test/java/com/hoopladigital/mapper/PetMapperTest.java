@@ -71,10 +71,7 @@ public class PetMapperTest extends AbstractMapperTest {
 
 		// setup
 		final Long expectedId = 35L; // TODO: counter got messed up somehow, should be 34
-
-		final Pet pet = new Pet();
-		pet.setPersonId(1L);
-		pet.setName("Sgt Pepper");
+		final Pet pet = MapperTestHelper.createValidPet(false);
 
 		// run test
 		petMapper.createPet(pet);
@@ -94,9 +91,8 @@ public class PetMapperTest extends AbstractMapperTest {
 	public void should_create_pet_null_person_id() {
 
 		// setup
-		final Pet pet = new Pet();
+		final Pet pet = MapperTestHelper.createValidPet(false);
 		pet.setPersonId(null);
-		pet.setName("Fido");
 
 		// run test
 		petMapper.createPet(pet);
@@ -106,9 +102,8 @@ public class PetMapperTest extends AbstractMapperTest {
 	public void should_create_pet_invalid_person_id() {
 
 		// setup
-		final Pet pet = new Pet();
+		final Pet pet = MapperTestHelper.createValidPet(false);
 		pet.setPersonId(1_000L);
-		pet.setName("Spot");
 
 		// run test
 		petMapper.createPet(pet);
