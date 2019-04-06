@@ -4,6 +4,7 @@ import com.hoopladigital.bean.Person;
 import com.hoopladigital.service.PersonService;
 
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -71,6 +72,18 @@ public class PersonResource {
 		person.setLastName(lastName);
 
 		return personService.updatePerson(person);
+	}
+
+	@DELETE
+	@Produces("application/json")
+	public boolean deletePerson(@PathParam("id") Long id) {
+
+		// TODO: Test endpoint
+
+		final Person person = new Person();
+		person.setId(id);
+
+		return personService.deletePerson(person);
 	}
 
 }

@@ -131,4 +131,22 @@ public class PersonResourceTest extends AbstractTest {
 		assertEquals(person, actual);
 	}
 
+	@Test
+	public void should_delete_person() {
+
+		// setup
+		final Person person = new Person();
+		person.setId(5L);
+		when(personService.deletePerson(any(Person.class))).thenReturn(true);
+
+		// run test
+		final boolean deleted = personResource.deletePerson(person.getId());
+
+		// verify mocks / capture results
+		// TODO: Test the internals of the methods w/o changing the structure of PersonResource
+
+		// assert results
+		assertTrue(deleted);
+	}
+
 }

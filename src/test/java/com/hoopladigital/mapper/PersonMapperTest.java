@@ -137,4 +137,67 @@ public class PersonMapperTest extends AbstractMapperTest {
 //		personMapper.updatePerson(person);
 //	}
 
+	@Test
+	public void should_delete_person() {
+
+		// setup
+		final Person person = personMapper.getPersonById(3L);
+
+		// run test
+		final int rowsDeleted = personMapper.deletePerson(person);
+
+		// assert results
+		assertEquals(1, rowsDeleted);
+		assertEquals(9, personMapper.getPersonList().size());
+		assertNull(personMapper.getPersonById(person.getId()));
+	}
+
+	@Test
+	public void should_delete_person_modified_person() {
+
+		// setup: createValidPerson does not match DB entity except for ID
+		final Person person = MapperTestHelper.createValidPerson(true);
+
+		// run test
+		final int rowsDeleted = personMapper.deletePerson(person);
+
+		// assert results
+		assertEquals(1, rowsDeleted);
+		assertEquals(9, personMapper.getPersonList().size());
+		assertNull(personMapper.getPersonById(person.getId()));
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_delete_person_null_person() {
+
+		// run test
+		personMapper.deletePerson(null);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_delete_person_without_id() {
+
+		// setup: creating without ID
+		final Person person = MapperTestHelper.createValidPerson(false);
+
+		// run test
+		personMapper.deletePerson(person);
+	}
+
+	@Test
+	public void should_delete_person_with_invalid_id() {
+
+		// setup: creating without ID
+		final Person person = MapperTestHelper.createValidPerson(false);
+		person.setId(1_000L);
+
+		// run test
+		final int rowsDeleted = personMapper.deletePerson(person);
+
+		// assert results
+		assertEquals(0, rowsDeleted);
+		assertEquals(10, personMapper.getPersonList().size());
+		assertNull(personMapper.getPersonById(person.getId()));
+	}
+
 }

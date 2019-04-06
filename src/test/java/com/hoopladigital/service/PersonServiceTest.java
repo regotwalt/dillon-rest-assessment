@@ -167,4 +167,71 @@ public class PersonServiceTest extends AbstractTest {
 		assertNull(actual);
 	}
 
+	@Test
+	public void should_delete_person() {
+
+		// setup
+		final Person person = new Person();
+		when(personMapper.deletePerson(person)).thenReturn(1);
+
+		// run test
+		final boolean deleted = personService.deletePerson(person);
+
+		// verify mocks / capture values
+		verify(personMapper).deletePerson(person);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertTrue(deleted);
+	}
+
+	@Test
+	public void should_delete_person_no_deletion() {
+
+		// setup
+		final Person person = new Person();
+		when(personMapper.deletePerson(person)).thenReturn(0);
+
+		// run test
+		final boolean deleted = personService.deletePerson(person);
+
+		// verify mocks / capture values
+		verify(personMapper).deletePerson(person);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertFalse(deleted);
+	}
+
+	@Test
+	public void should_delete_person_null_person() {
+
+		// run test
+		final boolean deleted = personService.deletePerson(null);
+
+		// verify mocks / capture values
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertFalse(deleted);
+	}
+
+	@Test
+	public void should_delete_person_invalid_person() {
+
+		// setup
+		final Person person = new Person();
+		doThrow(new PersistenceException()).when(personMapper).deletePerson(person);
+
+		// run test
+		final boolean deleted = personService.deletePerson(person);
+
+		// verify mocks / capture values
+		verify(personMapper).deletePerson(person);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertFalse(deleted);
+	}
+
 }

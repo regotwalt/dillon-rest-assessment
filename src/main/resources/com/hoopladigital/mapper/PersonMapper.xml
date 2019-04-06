@@ -49,4 +49,11 @@
 			id = #{id}
 	</update>
 
+	<delete id="deletePerson">
+		delete
+		from Person
+		where
+			id = #{id}
+	</delete>
+
 </mapper>

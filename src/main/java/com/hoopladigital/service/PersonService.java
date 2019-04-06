@@ -42,4 +42,16 @@ public class PersonService {
 		return person;
 	}
 
+	public boolean deletePerson(Person person) {
+		if (person == null) return false;
+		try {
+			final int numberDeleted = personMapper.deletePerson(person);
+			// Future: Log WARN if numberDeleted>1 - would be unexpected
+			return numberDeleted > 0;
+		}
+		catch (PersistenceException pe) {
+			return false;
+		}
+	}
+
 }

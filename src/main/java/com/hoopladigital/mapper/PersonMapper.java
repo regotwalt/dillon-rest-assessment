@@ -9,4 +9,5 @@ public interface PersonMapper {
 	Person getPersonById(Long id);
 	void createPerson(Person person);
 	void updatePerson(Person person);
+	int deletePerson(Person person);
 }
