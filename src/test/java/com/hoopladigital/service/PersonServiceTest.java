@@ -54,7 +54,7 @@ public class PersonServiceTest extends AbstractTest {
 	public void should_get_person_by_id() {
 
 		// setup
-		final long queriedId = 1L;
+		final Long queriedId = 1L;
 		final Person expected = new Person();
 		when(personMapper.getPersonById(queriedId)).thenReturn(expected);
 
@@ -73,7 +73,7 @@ public class PersonServiceTest extends AbstractTest {
 	public void should_get_person_by_id_invalid_id() {
 
 		// setup
-		final long queriedId = 1_000L;
+		final Long queriedId = 1_000L;
 		when(personMapper.getPersonById(queriedId)).thenReturn(null);
 
 		// run test

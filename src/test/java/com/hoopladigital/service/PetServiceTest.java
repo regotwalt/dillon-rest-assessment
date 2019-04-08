@@ -53,7 +53,7 @@ public class PetServiceTest extends AbstractTest {
 	public void should_get_pet_by_id() {
 
 		// setup
-		final long queriedId = 1L;
+		final Long queriedId = 1L;
 		final Pet expected = new Pet();
 		when(petMapper.getPetById(queriedId)).thenReturn(expected);
 
@@ -72,7 +72,7 @@ public class PetServiceTest extends AbstractTest {
 	public void should_get_pet_by_id_invalid_id() {
 
 		// setup
-		final long queriedId = 1_000L;
+		final Long queriedId = 1_000L;
 		when(petMapper.getPetById(queriedId)).thenReturn(null);
 
 		// run test

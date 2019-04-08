@@ -38,7 +38,7 @@ public class PetMapperTest extends AbstractMapperTest {
 	public void should_get_pet_by_id() throws Exception {
 
 		// setup
-		final long queriedId = 14L;
+		final Long queriedId = 14L;
 
 		final Pet expected = new Pet();
 		expected.setId(queriedId);
@@ -57,7 +57,7 @@ public class PetMapperTest extends AbstractMapperTest {
 	public void should_get_pet_by_id_invalid_id() {
 
 		// setup
-		final long queriedId = 1_000L;
+		final Long queriedId = 1_000L;
 
 		// run test
 		final Pet actual = petMapper.getPetById(queriedId);

@@ -41,7 +41,7 @@ public class PersonMapperTest extends AbstractMapperTest {
 	public void should_get_person_by_id() throws Exception {
 
 		// setup
-		final long queriedId = 6L;
+		final Long queriedId = 6L;
 
 		final Person expected = new Person();
 		expected.setId(queriedId);
@@ -61,7 +61,7 @@ public class PersonMapperTest extends AbstractMapperTest {
 	public void should_get_person_by_id_invalid_id() {
 
 		// setup
-		final long queriedId = 1_000L;
+		final Long queriedId = 1_000L;
 
 		// run test
 		final Person actual = personMapper.getPersonById(queriedId);
