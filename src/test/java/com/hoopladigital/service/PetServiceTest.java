@@ -91,7 +91,7 @@ public class PetServiceTest extends AbstractTest {
 
 		// setup
 		final Pet pet = new Pet();
-		doNothing().when(petMapper).createPet(pet);
+		when(petMapper.createPet(pet)).thenReturn(1);
 
 		// run test
 		final Pet actual = petService.createPet(pet);
@@ -162,7 +162,7 @@ public class PetServiceTest extends AbstractTest {
 
 		// setup
 		final Pet expected = new Pet();
-		doNothing().when(petMapper).updatePet(expected);
+		when(petMapper.updatePet(expected)).thenReturn(1);
 
 		// run test
 		final Pet actual = petService.updatePet(expected);

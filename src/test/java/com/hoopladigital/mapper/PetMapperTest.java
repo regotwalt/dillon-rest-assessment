@@ -74,9 +74,10 @@ public class PetMapperTest extends AbstractMapperTest {
 		final Pet pet = MapperTestHelper.createValidPet(false);
 
 		// run test
-		petMapper.createPet(pet);
+		final int rowsAdded = petMapper.createPet(pet);
 
 		// assert results
+		assertEquals(1, rowsAdded);
 		assertEquals(expectedId, pet.getId());
 	}
 
@@ -116,12 +117,13 @@ public class PetMapperTest extends AbstractMapperTest {
 		final Pet expected = MapperTestHelper.createValidPet(true);
 
 		// run test
-		petMapper.updatePet(expected);
+		final int rowsUpdated = petMapper.updatePet(expected);
 
 		// verify mocks / capture values
 		final Pet actual = petMapper.getPetById(expected.getId());
 
 		// assert results
+		assertEquals(1, rowsUpdated);
 		beanTestHelper.diffBeans(expected, actual);
 	}
 

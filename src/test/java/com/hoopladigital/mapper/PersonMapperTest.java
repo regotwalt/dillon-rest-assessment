@@ -78,9 +78,10 @@ public class PersonMapperTest extends AbstractMapperTest {
 		final Person person = MapperTestHelper.createValidPerson(false);
 
 		// run test
-		personMapper.createPerson(person);
+		final int rowsAdded = personMapper.createPerson(person);
 
 		// assert results
+		assertEquals(1, rowsAdded);
 		assertEquals(expectedId, person.getId());
 	}
 
@@ -98,12 +99,13 @@ public class PersonMapperTest extends AbstractMapperTest {
 		final Person expected = MapperTestHelper.createValidPerson(true);
 
 		// run test
-		personMapper.updatePerson(expected);
+		final int rowsUpdated = personMapper.updatePerson(expected);
 
 		// verify mocks / capture values
 		final Person actual = personMapper.getPersonById(expected.getId());
 
 		// assert results
+		assertEquals(1, rowsUpdated);
 		beanTestHelper.diffBeans(expected, actual);
 	}
 

@@ -7,7 +7,7 @@ import java.util.List;
 public interface PetMapper {
 	List<Pet> getPetList();
 	Pet getPetById(Long id);
-	void createPet(Pet pet);
-	void updatePet(Pet pet);
+	int createPet(Pet pet);
+	int updatePet(Pet pet);
 	int deletePet(Pet pet);
 }

@@ -92,7 +92,7 @@ public class PersonServiceTest extends AbstractTest {
 
 		// setup
 		final Person person = new Person();
-		doNothing().when(personMapper).createPerson(person);
+		when(personMapper.createPerson(person)).thenReturn(1);
 
 		// run test
 		final Person actual = personService.createPerson(person);
@@ -123,7 +123,7 @@ public class PersonServiceTest extends AbstractTest {
 
 		// setup
 		final Person expected = new Person();
-		doNothing().when(personMapper).updatePerson(expected);
+		when(personMapper.updatePerson(expected)).thenReturn(1);
 
 		// run test
 		final Person actual = personService.updatePerson(expected);
