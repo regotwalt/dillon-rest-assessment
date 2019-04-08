@@ -13,6 +13,16 @@
 		order by personId, id
 	</select>
 
+	<select id="getPetListByPersonId" parameterType="long" resultType="Pet">
+		select
+			id,
+			personId,
+			name
+		from Pet
+		where personId = #{personId}
+		order by id
+	</select>
+
 	<select id="getPetById" parameterType="long" resultType="Pet">
 		select
 			id,

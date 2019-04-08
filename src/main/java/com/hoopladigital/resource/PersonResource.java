@@ -1,7 +1,9 @@
 package com.hoopladigital.resource;
 
 import com.hoopladigital.bean.Person;
+import com.hoopladigital.bean.Pet;
 import com.hoopladigital.service.PersonService;
+import com.hoopladigital.service.PetService;
 
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
@@ -17,10 +19,12 @@ import java.util.List;
 public class PersonResource {
 
 	private final PersonService personService;
+	private final PetService petService;
 
 	@Inject
-	public PersonResource(final PersonService personService) {
+	public PersonResource(final PersonService personService, final PetService petService) {
 		this.personService = personService;
+		this.petService = petService;
 	}
 
 	@GET
@@ -36,6 +40,13 @@ public class PersonResource {
 		// TODO: Deal with response code (404 if invalid id)
 		// TODO: Test endpoint
 		return personService.getPersonById(id);
+	}
+
+	@GET
+	@Path("{id}/pets")
+	@Produces("application/json")
+	public List<Pet> getPetListByPersonId(@PathParam("id") Long personId) {
+		return petService.getPetListByPersonId(personId);
 	}
 
 	@POST

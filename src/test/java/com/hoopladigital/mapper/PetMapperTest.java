@@ -35,6 +35,44 @@ public class PetMapperTest extends AbstractMapperTest {
 	}
 
 	@Test
+	public void should_get_pet_list_by_person_id() throws Exception {
+
+		// setup
+		final Long personId = 1L;
+		final Pet expectedFirst = new Pet();
+		expectedFirst.setId(1L);
+		expectedFirst.setPersonId(1L);
+		expectedFirst.setName("Samson");
+
+		// run test
+		final List<Pet> petList = petMapper.getPetListByPersonId(personId);
+
+		// assert results
+		assertEquals(18, petList.size());
+		beanTestHelper.diffBeans(expectedFirst, petList.get(0));
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_get_pet_list_by_person_id_null_person_id() {
+
+		// run test
+		petMapper.getPetListByPersonId(null);
+	}
+
+	@Test
+	public void should_get_pet_list_by_person_id_invalid_person_id() {
+
+		// setup
+		final Long invalidPersonId = 1_000L;
+
+		// run test
+		final List<Pet> petList = petMapper.getPetListByPersonId(invalidPersonId);
+
+		// assert results
+		assertEquals(0, petList.size());
+	}
+
+	@Test
 	public void should_get_pet_by_id() throws Exception {
 
 		// setup

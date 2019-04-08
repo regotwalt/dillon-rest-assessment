@@ -4,6 +4,7 @@ import com.hoopladigital.bean.Pet;
 import com.hoopladigital.mapper.PetMapper;
 
 import javax.inject.Inject;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.ibatis.exceptions.PersistenceException;
@@ -19,6 +20,15 @@ public class PetService {
 
 	public List<Pet> getPetList() {
 		return petMapper.getPetList();
+	}
+
+	public List<Pet> getPetListByPersonId(Long personId) {
+		try {
+			return petMapper.getPetListByPersonId(personId);
+		}
+		catch (PersistenceException pe) {
+			return Collections.emptyList();
+		}
 	}
 
 	public Pet getPetById(Long id) {

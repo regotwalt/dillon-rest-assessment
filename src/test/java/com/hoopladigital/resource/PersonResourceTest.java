@@ -1,7 +1,9 @@
 package com.hoopladigital.resource;
 
 import com.hoopladigital.bean.Person;
+import com.hoopladigital.bean.Pet;
 import com.hoopladigital.service.PersonService;
+import com.hoopladigital.service.PetService;
 import com.hoopladigital.test.AbstractTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,11 +24,14 @@ public class PersonResourceTest extends AbstractTest {
 	@Mock
 	private PersonService personService;
 
+	@Mock
+	private PetService petService;
+
 	private PersonResource personResource;
 
 	@Before
 	public void beforePersonResourceTest() {
-		personResource = new PersonResource(personService);
+		personResource = new PersonResource(personService, petService);
 	}
 
 	@Test
@@ -83,6 +88,24 @@ public class PersonResourceTest extends AbstractTest {
 
 		// assert results
 		assertNull(actual);
+	}
+
+	@Test
+	public void should_get_pet_list_by_person_id() {
+
+		// setup
+		final Long personId = 1L;
+		when(petService.getPetListByPersonId(personId)).thenReturn(Collections.emptyList());
+
+		// run test
+		final List<Pet> actual = personResource.getPetListByPersonId(personId);
+
+		// verify mocks / capture values
+		verify(petService).getPetListByPersonId(personId);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertTrue(actual.isEmpty());
 	}
 
 	@Test

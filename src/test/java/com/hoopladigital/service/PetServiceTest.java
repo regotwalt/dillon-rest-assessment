@@ -50,6 +50,43 @@ public class PetServiceTest extends AbstractTest {
 	}
 
 	@Test
+	public void should_get_pet_list_by_person_id() {
+
+		// setup
+		final Long personId = 100L;
+		final List<Pet> expected = Collections.emptyList();
+		when(petMapper.getPetListByPersonId(personId)).thenReturn(expected);
+
+		// run test
+		final List<Pet> actual = petService.getPetListByPersonId(personId);
+
+		// verify mocks / capture values
+		verify(petMapper).getPetListByPersonId(personId);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void should_get_pet_list_by_person_id_failure() {
+
+		// setup
+		final Long personId = 100L;
+		doThrow(new PersistenceException()).when(petMapper).getPetListByPersonId(personId);
+
+		// run test
+		final List<Pet> actual = petService.getPetListByPersonId(personId);
+
+		// verify mocks / capture values
+		verify(petMapper).getPetListByPersonId(personId);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertTrue(actual.isEmpty());
+	}
+
+	@Test
 	public void should_get_pet_by_id() {
 
 		// setup
