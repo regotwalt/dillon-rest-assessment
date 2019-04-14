@@ -29,36 +29,36 @@ insert into person (firstname, middlename, lastname) values ('William','Henry','
 insert into person (firstname, middlename, lastname) values ('John',null,'Tyler');
 
 -- Source: http://www.presidentialpetmuseum.com/whitehousepets-4/
-insert into pet (personId, name) values (1, 'Samson');
-insert into pet (personId, name) values (1, 'Steady');
-insert into pet (personId, name) values (1, 'Leonidas');
-insert into pet (personId, name) values (1, 'Traveller');
-insert into pet (personId, name) values (1, 'Magnolia ');
-insert into pet (personId, name) values (1, 'Drunkard ');
-insert into pet (personId, name) values (1, 'Mopsey');
-insert into pet (personId, name) values (1, 'Taster');
-insert into pet (personId, name) values (1, 'Cloe');
-insert into pet (personId, name) values (1, 'Tipsy');
-insert into pet (personId, name) values (1, 'Tipler');
-insert into pet (personId, name) values (1, 'Forester');
-insert into pet (personId, name) values (1, 'Captain');
-insert into pet (personId, name) values (1, 'Lady Rover');
-insert into pet (personId, name) values (1, 'Vulcan');
-insert into pet (personId, name) values (1, 'Sweet Lips');
-insert into pet (personId, name) values (1, 'Searcher');
-insert into pet (personId, name) values (1, 'Rozinante');
-insert into pet (personId, name) values (2, 'Juno');
-insert into pet (personId, name) values (2, 'Satan');
-insert into pet (personId, name) values (2, 'Cleopatra');
-insert into pet (personId, name) values (2, 'Caesar');
-insert into pet (personId, name) values (3, 'Dick');
-insert into pet (personId, name) values (7, 'Sam Patch');
-insert into pet (personId, name) values (7, 'Emily');
-insert into pet (personId, name) values (7, 'Lady Nashville');
-insert into pet (personId, name) values (7, 'Bolivia');
-insert into pet (personId, name) values (7, 'Thruxton');
-insert into pet (personId, name) values (7, 'Poll');
-insert into pet (personId, name) values (9, 'Sukey');
-insert into pet (personId, name) values (10, 'The General');
-insert into pet (personId, name) values (10, 'Le Beau');
-insert into pet (personId, name) values (10, 'Johnny Ty');
+insert into pet (personId, name) values (1, 'Samson'); -- id: 1
+insert into pet (personId, name) values (1, 'Steady'); -- id: 2
+insert into pet (personId, name) values (1, 'Leonidas'); -- id: 3
+insert into pet (personId, name) values (1, 'Traveller'); -- id: 4
+insert into pet (personId, name) values (1, 'Magnolia '); -- id: 5
+insert into pet (personId, name) values (1, 'Drunkard '); -- id: 6
+insert into pet (personId, name) values (1, 'Mopsey'); -- id: 7
+insert into pet (personId, name) values (1, 'Taster'); -- id: 8
+insert into pet (personId, name) values (1, 'Cloe'); -- id: 9
+insert into pet (personId, name) values (1, 'Tipsy'); -- id: 10
+insert into pet (personId, name) values (1, 'Tipler'); -- id: 11
+insert into pet (personId, name) values (1, 'Forester'); -- id: 12
+insert into pet (personId, name) values (1, 'Captain'); -- id: 13
+insert into pet (personId, name) values (1, 'Lady Rover'); -- id: 14
+insert into pet (personId, name) values (1, 'Vulcan'); -- id: 15
+insert into pet (personId, name) values (1, 'Sweet Lips'); -- id: 16
+insert into pet (personId, name) values (1, 'Searcher'); -- id: 17
+insert into pet (personId, name) values (1, 'Rozinante'); -- id: 18
+insert into pet (personId, name) values (2, 'Juno'); -- id: 19
+insert into pet (personId, name) values (2, 'Satan'); -- id: 20
+insert into pet (personId, name) values (2, 'Cleopatra'); -- id: 21
+insert into pet (personId, name) values (2, 'Caesar'); -- id: 22
+insert into pet (personId, name) values (3, 'Dick'); -- id: 23
+insert into pet (personId, name) values (7, 'Sam Patch'); -- id: 24
+insert into pet (personId, name) values (7, 'Emily'); -- id: 25
+insert into pet (personId, name) values (7, 'Lady Nashville'); -- id: 26
+insert into pet (personId, name) values (7, 'Bolivia'); -- id: 27
+insert into pet (personId, name) values (7, 'Thruxton'); -- id: 28
+insert into pet (personId, name) values (7, 'Poll'); -- id: 29
+insert into pet (personId, name) values (9, 'Sukey'); -- id: 30
+insert into pet (personId, name) values (10, 'The General'); -- id: 31
+insert into pet (personId, name) values (10, 'Le Beau'); -- id: 32
+insert into pet (personId, name) values (10, 'Johnny Ty'); -- id: 33

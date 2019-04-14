@@ -39,8 +39,8 @@ public class PersonResource {
 	@Produces("application/json")
 	public Response getPersonById(@PathParam("id") Long id) {
 		// TODO: Test endpoint
-		final Person created = personService.getPersonById(id);
-		return Response.status(created == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(created).build();
+		final Person person = personService.getPersonById(id);
+		return Response.status(person == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(person).build();
 	}
 
 	@GET

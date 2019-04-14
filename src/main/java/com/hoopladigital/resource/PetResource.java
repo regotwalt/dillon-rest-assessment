@@ -36,8 +36,8 @@ public class PetResource {
 	@Produces("application/json")
 	public Response getPetById(@PathParam("id") Long id) {
 		// TODO: Test endpoint
-		final Pet created = petService.getPetById(id);
-		return Response.status(created == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(created).build();
+		final Pet pet = petService.getPetById(id);
+		return Response.status(pet == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(pet).build();
 	}
 
 	@POST
