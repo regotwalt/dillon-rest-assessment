@@ -13,6 +13,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/people")
@@ -51,50 +52,34 @@ public class PersonResource {
 
 	@POST
 	@Produces("application/json")
-	public Person createPerson(@PathParam("firstName") String firstName,
-							   @PathParam("middleName") String middleName,
-							   @PathParam("lastName") String lastName) {
+	public Person createPerson(Person person) {
 		// TODO: Test endpoint
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on first/middle/last names?
-
-		final Person person = new Person();
-		person.setFirstName(firstName);
-		person.setMiddleName(middleName);
-		person.setLastName(lastName);
-
 		return personService.createPerson(person);
 	}
 
 	@PUT
+	@Path("{id}")
 	@Produces("application/json")
-	public Person updatePerson(@PathParam("id") Long id,
-							   @PathParam("firstName") String firstName,
-							   @PathParam("middleName") String middleName,
-							   @PathParam("lastName") String lastName) {
+	public Person updatePerson(@PathParam("id") Long id, Person person) {
 
 		// TODO: Test endpoint
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on first/middle/last names?
-		// TODO: Another option - make all fields optional, update only what's provided
-
-		final Person person = new Person();
 		person.setId(id);
-		person.setFirstName(firstName);
-		person.setMiddleName(middleName);
-		person.setLastName(lastName);
-
 		return personService.updatePerson(person);
 	}
 
 	@DELETE
+	@Path("{id}")
 	@Produces("application/json")
-	public boolean deletePerson(@PathParam("id") Long id) {
-
+	public Response deletePerson(@PathParam("id") Long id) {
 		// TODO: Test endpoint
-
 		final Person person = new Person();
 		person.setId(id);
 
-		return personService.deletePerson(person);
+		final boolean deleted = personService.deletePerson(person);
+
+		return Response.status(deleted ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND).build();
 	}
 
 }

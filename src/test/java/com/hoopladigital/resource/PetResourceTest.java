@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import java.util.Collections;
 import java.util.List;
 
+import javax.ws.rs.core.Response;
+
 import static com.hoopladigital.test.MockHelper.allDeclaredMocks;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.any;
@@ -88,20 +90,25 @@ public class PetResourceTest extends AbstractTest {
 	public void should_create_pet() {
 
 		// setup
-		final Long expectedId = 100L;
+		final Long expectedId = 25L;
 
-		final Pet returned = new Pet();
-		returned.setId(expectedId);
-		returned.setPersonId(1L);
-		returned.setName("Jack");
+		final Pet provided = new Pet();
+		provided.setName("Jack");
+		provided.setPersonId(1L);
 
-		when(petService.createPet(any(Pet.class))).thenReturn(returned);
+		final Pet expected = new Pet();
+		expected.setName(provided.getName());
+		expected.setPersonId(provided.getPersonId());
+		expected.setId(expectedId);
+
+		when(petService.createPet(provided)).thenReturn(expected);
 
 		// run test
-		final Pet actual = petResource.createPet(returned.getPersonId(), returned.getName());
+		final Pet actual = petResource.createPet(provided);
 
 		// verify mocks / capture values
-		// TODO: Test the internals of the method w/o changing structure of PetResource (consistency)
+		verify(petService).createPet(provided);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
 		assertEquals(expectedId, actual.getId());
@@ -111,39 +118,58 @@ public class PetResourceTest extends AbstractTest {
 	public void should_update_pet() {
 
 		// setup
-		final Pet expected = new Pet();
-		expected.setId(1L);
-		expected.setPersonId(1L);
-		expected.setName("Fuzzy Bear");
+		final Pet pet = new Pet();
+		pet.setId(1L);
+		pet.setName("Fuzzy Bear");
+		pet.setPersonId(1L);
 
-		when(petService.updatePet(any(Pet.class))).thenReturn(expected);
+		when(petService.updatePet(pet)).thenReturn(pet);
 
 		// run test
-		final Pet actual = petResource.updatePet(expected.getId(), expected.getPersonId(), expected.getName());
+		final Pet actual = petResource.updatePet(pet.getId(), pet);
 
 		// verify mocks / capture values
-		// TODO: Test the internals of the methods w/o changing structure of PetResource
+		verify(petService).updatePet(pet);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert result
-		assertEquals(expected, actual);
+		assertEquals(pet, actual);
 	}
 
 	@Test
 	public void should_delete_pet() {
 
 		// setup
-		final Pet pet = new Pet();
-		pet.setId(5L);
+		final Long id = 5L;
 		when(petService.deletePet(any(Pet.class))).thenReturn(true);
 
 		// run test
-		final boolean deleted = petResource.deletePet(pet.getId());
+		final Response response = petResource.deletePet(id);
 
 		// verify mocks / capture values
-		// TODO: Test the internals of the methods w/o changing the structure of PersonResource
+		verify(petService).deletePet(any(Pet.class)); // TODO: Improve this
+		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertTrue(deleted);
+		assertEquals(204, response.getStatus());
+	}
+
+	@Test
+	public void should_delete_pet_invalid_request() {
+
+		// setup
+		final Long id = 5L;
+		when(petService.deletePet(any(Pet.class))).thenReturn(false);
+
+		// run test
+		final Response response = petResource.deletePet(id);
+
+		// verify mocks / capture values
+		verify(petService).deletePet(any(Pet.class)); // TODO: Improve this
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(404, response.getStatus());
 	}
 
 }

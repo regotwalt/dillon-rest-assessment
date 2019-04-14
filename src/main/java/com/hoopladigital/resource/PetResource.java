@@ -11,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/pets")
@@ -41,45 +42,34 @@ public class PetResource {
 
 	@POST
 	@Produces("application/json")
-	public Pet createPet(@PathParam("personId") Long personId, @PathParam("name") String name) {
+	public Pet createPet(Pet pet) {
 		// TODO: Test endpoint
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on name?
-
-		final Pet pet = new Pet();
-		pet.setPersonId(personId);
-		pet.setName(name);
-
 		return petService.createPet(pet);
 	}
 
 	@PUT
+	@Path("{id}")
 	@Produces("application/json")
-	public Pet updatePet(@PathParam("id") Long id,
-						 @PathParam("personId") Long personId,
-						 @PathParam("name") String name) {
+	public Pet updatePet(@PathParam("id") Long id, Pet pet) {
 
 		// TODO: Test endpoint
 		// TODO: MISSING REQUIREMENT: Should any validation be done on name?
-		// TODO: Another option - make fields optional, update only what's provided
-
-		final Pet pet = new Pet();
 		pet.setId(id);
-		pet.setPersonId(personId);
-		pet.setName(name);
-
 		return petService.updatePet(pet);
 	}
 
 	@DELETE
+	@Path("{id}")
 	@Produces("application/json")
-	public boolean deletePet(@PathParam("id") Long id) {
-
+	public Response deletePet(@PathParam("id") Long id) {
 		// TODO: Test endpoint
-
 		Pet pet = new Pet();
 		pet.setId(id);
 
-		return petService.deletePet(pet);
+		final boolean deleted = petService.deletePet(pet);
+
+		return Response.status(deleted ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND).build();
 	}
 
 }

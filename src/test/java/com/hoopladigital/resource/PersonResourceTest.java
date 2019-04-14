@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import java.util.Collections;
 import java.util.List;
 
+import javax.ws.rs.core.Response;
+
 import static com.hoopladigital.test.MockHelper.allDeclaredMocks;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.any;
@@ -114,19 +116,25 @@ public class PersonResourceTest extends AbstractTest {
 		// setup
 		final Long expectedId = 25L;
 
-		final Person returned = new Person();
-		returned.setId(expectedId);
-		returned.setFirstName("Jean");
-		returned.setMiddleName("Paul");
-		returned.setLastName("Gaultier");
+		final Person provided = new Person();
+		provided.setFirstName("Jean");
+		provided.setMiddleName("Paul");
+		provided.setLastName("Gaultier");
 
-		when(personService.createPerson(any(Person.class))).thenReturn(returned);
+		final Person expected = new Person();
+		expected.setFirstName(provided.getFirstName());
+		expected.setMiddleName(provided.getMiddleName());
+		expected.setLastName(provided.getLastName());
+		expected.setId(expectedId);
+
+		when(personService.createPerson(provided)).thenReturn(expected);
 
 		// run test
-		final Person actual = personResource.createPerson(returned.getFirstName(), returned.getMiddleName(), returned.getLastName());
+		final Person actual = personResource.createPerson(provided);
 
 		// verify mocks / capture values
-		// TODO: Test the internals of method w/o changing structure of PersonResource
+		verify(personService).createPerson(provided);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
 		assertEquals(expectedId, actual.getId());
@@ -142,13 +150,14 @@ public class PersonResourceTest extends AbstractTest {
 		person.setMiddleName("Paul");
 		person.setLastName("Gaultier");
 
-		when(personService.updatePerson(any(Person.class))).thenReturn(person);
+		when(personService.updatePerson(person)).thenReturn(person);
 
 		// run test
-		final Person actual = personResource.updatePerson(person.getId(), person.getFirstName(), person.getMiddleName(), person.getLastName());
+		final Person actual = personResource.updatePerson(person.getId(), person);
 
 		// verify mocks / capture results
-		// TODO: Test the internals of the methods w/o changing structure of PersonResource
+		verify(personService).updatePerson(person);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
 		assertEquals(person, actual);
@@ -158,18 +167,36 @@ public class PersonResourceTest extends AbstractTest {
 	public void should_delete_person() {
 
 		// setup
-		final Person person = new Person();
-		person.setId(5L);
+		final Long id = 5L;
 		when(personService.deletePerson(any(Person.class))).thenReturn(true);
 
 		// run test
-		final boolean deleted = personResource.deletePerson(person.getId());
+		final Response response = personResource.deletePerson(id);
 
 		// verify mocks / capture results
-		// TODO: Test the internals of the methods w/o changing the structure of PersonResource
+		verify(personService).deletePerson(any(Person.class)); // TODO: Improve this
+		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertTrue(deleted);
+		assertEquals(204, response.getStatus());
+	}
+
+	@Test
+	public void should_delete_person_invalid_request() {
+
+		// setup
+		final Long id = 5L;
+		when(personService.deletePerson(any(Person.class))).thenReturn(false);
+
+		// run test
+		final Response response = personResource.deletePerson(id);
+
+		// verify mocks / capture results
+		verify(personService).deletePerson(any(Person.class)); // TODO: Improve this
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(404, response.getStatus());
 	}
 
 }
