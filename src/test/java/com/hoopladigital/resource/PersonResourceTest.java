@@ -64,14 +64,15 @@ public class PersonResourceTest extends AbstractTest {
 		when(personService.getPersonById(queriedId)).thenReturn(expected);
 
 		// run test
-		final Person actual = personResource.getPersonById(queriedId);
+		final Response response = personResource.getPersonById(queriedId);
 
 		// verify mocks / capture values
 		verify(personService).getPersonById(queriedId);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertEquals(expected, actual);
+		assertEquals(200, response.getStatus());
+		assertEquals(expected, response.getEntity());
 	}
 
 	@Test
@@ -82,14 +83,15 @@ public class PersonResourceTest extends AbstractTest {
 		when(personService.getPersonById(queriedId)).thenReturn(null);
 
 		// run test
-		final Person actual = personResource.getPersonById(queriedId);
+		final Response response = personResource.getPersonById(queriedId);
 
 		// verify mocks / capture values
 		verify(personService).getPersonById(queriedId);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertNull(actual);
+		assertEquals(404, response.getStatus());
+		assertNull(response.getEntity());
 	}
 
 	@Test

@@ -34,10 +34,10 @@ public class PetResource {
 	@GET
 	@Path("{id}")
 	@Produces("application/json")
-	public Pet getPetById(@PathParam("id") Long id) {
-		// TODO: Deal with response code (404 if invalid id)
+	public Response getPetById(@PathParam("id") Long id) {
 		// TODO: Test endpoint
-		return petService.getPetById(id);
+		final Pet created = petService.getPetById(id);
+		return Response.status(created == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(created).build();
 	}
 
 	@POST

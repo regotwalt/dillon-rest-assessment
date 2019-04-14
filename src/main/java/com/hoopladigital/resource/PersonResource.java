@@ -37,10 +37,10 @@ public class PersonResource {
 	@GET
 	@Path("{id}")
 	@Produces("application/json")
-	public Person getPersonById(@PathParam("id") Long id) {
-		// TODO: Deal with response code (404 if invalid id)
+	public Response getPersonById(@PathParam("id") Long id) {
 		// TODO: Test endpoint
-		return personService.getPersonById(id);
+		final Person created = personService.getPersonById(id);
+		return Response.status(created == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(created).build();
 	}
 
 	@GET

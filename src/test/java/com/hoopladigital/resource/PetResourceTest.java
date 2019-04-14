@@ -58,14 +58,15 @@ public class PetResourceTest extends AbstractTest {
 		when(petService.getPetById(queriedId)).thenReturn(expected);
 
 		// run test
-		final Pet actual = petResource.getPetById(queriedId);
+		final Response response = petResource.getPetById(queriedId);
 
 		// verify mocks / capture values
 		verify(petService).getPetById(queriedId);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertEquals(expected, actual);
+		assertEquals(200, response.getStatus());
+		assertEquals(expected, response.getEntity());
 	}
 
 	@Test
@@ -76,14 +77,15 @@ public class PetResourceTest extends AbstractTest {
 		when(petService.getPetById(queriedId)).thenReturn(null);
 
 		// run test
-		final Pet actual = petResource.getPetById(queriedId);
+		final Response response = petResource.getPetById(queriedId);
 
 		// verify mocks / capture values
 		verify(petService).getPetById(queriedId);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertNull(actual);
+		assertEquals(404, response.getStatus());
+		assertNull(response.getEntity());
 	}
 
 	@Test
