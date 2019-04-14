@@ -46,8 +46,12 @@ public class PersonResource {
 	@GET
 	@Path("{id}/pets")
 	@Produces("application/json")
-	public List<Pet> getPetListByPersonId(@PathParam("id") Long personId) {
-		return petService.getPetListByPersonId(personId);
+	public Response getPetListByPersonId(@PathParam("id") Long personId) {
+		final List<Pet> pets = petService.getPetListByPersonId(personId);
+		if (!pets.isEmpty() || personService.getPersonById(personId) != null) {
+			return Response.status(Response.Status.OK).entity(pets).build();
+		}
+		return Response.status(Response.Status.NOT_FOUND).entity(null).build();
 	}
 
 	@POST

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -99,17 +100,63 @@ public class PersonResourceTest extends AbstractTest {
 
 		// setup
 		final Long personId = 1L;
-		when(petService.getPetListByPersonId(personId)).thenReturn(Collections.emptyList());
+		final List<Pet> returned = new ArrayList<>();
+		returned.add(new Pet());
+		when(petService.getPetListByPersonId(personId)).thenReturn(returned);
 
 		// run test
-		final List<Pet> actual = personResource.getPetListByPersonId(personId);
+		final Response response = personResource.getPetListByPersonId(personId);
 
 		// verify mocks / capture values
 		verify(petService).getPetListByPersonId(personId);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertTrue(actual.isEmpty());
+		assertEquals(200, response.getStatus());
+		assertEquals(returned, response.getEntity());
+	}
+
+	@Test
+	public void should_get_pet_list_by_person_id_no_pets() {
+
+		// setup
+		final Long personId = 1L;
+		final List<Pet> returned = Collections.emptyList();
+		when(petService.getPetListByPersonId(personId)).thenReturn(returned);
+		when(personService.getPersonById(personId)).thenReturn(new Person());
+
+		// run test
+		final Response response = personResource.getPetListByPersonId(personId);
+
+		// verify mocks / capture values
+		verify(petService).getPetListByPersonId(personId);
+		verify(personService).getPersonById(personId);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(200, response.getStatus());
+		assertEquals(returned, response.getEntity());
+	}
+
+	@Test
+	public void should_get_pet_list_by_person_id_no_person() {
+
+		// setup
+		final Long personId = 1L;
+		when(petService.getPetListByPersonId(personId)).thenReturn(Collections.emptyList());
+		when(personService.getPersonById(personId)).thenReturn(null);
+
+		// run test
+		final Response response = personResource.getPetListByPersonId(personId);
+
+		// verify mocks / capture values
+		verify(petService).getPetListByPersonId(personId);
+		verify(personService).getPersonById(personId);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(404, response.getStatus());
+		assertNull(response.getEntity());
 	}
 
 	@Test

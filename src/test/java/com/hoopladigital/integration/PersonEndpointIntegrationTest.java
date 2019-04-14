@@ -76,10 +76,9 @@ public class PersonEndpointIntegrationTest extends IntegrationHelperTest {
 		final Long personId = 1_000L;
 		final HttpURLConnection connection = makeRequest("people/" + personId + "/pets", "GET");
 		final String returnedJson = readResponseJson(connection);
-		final String expectedJson = "[]";
 
-		assertEquals(200, connection.getResponseCode()); // TODO: Make this a 404
-		assertEquals(expectedJson, returnedJson);
+		assertEquals(404, connection.getResponseCode());
+		assertNull(returnedJson);
 	}
 
 	@Test
