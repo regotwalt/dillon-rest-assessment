@@ -128,14 +128,38 @@ public class PetResourceTest extends AbstractTest {
 		when(petService.updatePet(pet)).thenReturn(pet);
 
 		// run test
-		final Pet actual = petResource.updatePet(pet.getId(), pet);
+		final Response response = petResource.updatePet(pet.getId(), pet);
 
 		// verify mocks / capture values
 		verify(petService).updatePet(pet);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert result
-		assertEquals(pet, actual);
+		assertEquals(200, response.getStatus());
+		assertEquals(pet, response.getEntity());
+	}
+
+	@Test
+	public void should_update_pet_invalid_request() {
+
+		// setup
+		final Pet pet = new Pet();
+		pet.setId(1L);
+		pet.setName("Fuzzy Bear");
+		pet.setPersonId(1L);
+
+		when(petService.updatePet(pet)).thenReturn(null);
+
+		// run test
+		final Response response = petResource.updatePet(pet.getId(), pet);
+
+		// verify mocks / capture values
+		verify(petService).updatePet(pet);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert result
+		assertEquals(404, response.getStatus());
+		assertNull(response.getEntity());
 	}
 
 	@Test

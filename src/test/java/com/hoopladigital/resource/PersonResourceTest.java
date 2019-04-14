@@ -155,14 +155,39 @@ public class PersonResourceTest extends AbstractTest {
 		when(personService.updatePerson(person)).thenReturn(person);
 
 		// run test
-		final Person actual = personResource.updatePerson(person.getId(), person);
+		final Response response = personResource.updatePerson(person.getId(), person);
 
 		// verify mocks / capture results
 		verify(personService).updatePerson(person);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertEquals(person, actual);
+		assertEquals(200, response.getStatus());
+		assertEquals(person, response.getEntity());
+	}
+
+	@Test
+	public void should_update_person_invalid_request() {
+
+		// setup
+		final Person person = new Person();
+		person.setId(1L);
+		person.setFirstName("Jean");
+		person.setMiddleName("Paul");
+		person.setLastName("Gaultier");
+
+		when(personService.updatePerson(person)).thenReturn(null);
+
+		// run test
+		final Response response = personResource.updatePerson(person.getId(), person);
+
+		// verify mocks / capture results
+		verify(personService).updatePerson(person);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(404, response.getStatus());
+		assertNull(response.getEntity());
 	}
 
 	@Test

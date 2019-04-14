@@ -51,12 +51,13 @@ public class PetResource {
 	@PUT
 	@Path("{id}")
 	@Produces("application/json")
-	public Pet updatePet(@PathParam("id") Long id, Pet pet) {
+	public Response updatePet(@PathParam("id") Long id, Pet pet) {
 
 		// TODO: Test endpoint
 		// TODO: MISSING REQUIREMENT: Should any validation be done on name?
 		pet.setId(id);
-		return petService.updatePet(pet);
+		final Pet updated = petService.updatePet(pet);
+		return Response.status(updated == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(updated).build();
 	}
 
 	@DELETE

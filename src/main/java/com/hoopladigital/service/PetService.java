@@ -49,7 +49,8 @@ public class PetService {
 	public Pet updatePet(Pet pet) {
 		if (pet == null) return null;
 		try {
-			petMapper.updatePet(pet);
+			final int rowsUpdated = petMapper.updatePet(pet);
+			if (rowsUpdated == 0) return null;
 		}
 		catch (PersistenceException pe) {
 			return null;

@@ -61,12 +61,13 @@ public class PersonResource {
 	@PUT
 	@Path("{id}")
 	@Produces("application/json")
-	public Person updatePerson(@PathParam("id") Long id, Person person) {
+	public Response updatePerson(@PathParam("id") Long id, Person person) {
 
 		// TODO: Test endpoint
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on first/middle/last names?
 		person.setId(id);
-		return personService.updatePerson(person);
+		final Person updated = personService.updatePerson(person);
+		return Response.status(updated == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(updated).build();
 	}
 
 	@DELETE

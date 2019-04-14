@@ -34,7 +34,8 @@ public class PersonService {
 	public Person updatePerson(Person person) {
 		if (person == null) return null;
 		try {
-			personMapper.updatePerson(person);
+			final int rowsUpdated = personMapper.updatePerson(person);
+			if (rowsUpdated == 0) return null;
 		}
 		catch (PersistenceException pe) {
 			return null;

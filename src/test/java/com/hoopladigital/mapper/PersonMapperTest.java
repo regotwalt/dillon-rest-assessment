@@ -127,17 +127,19 @@ public class PersonMapperTest extends AbstractMapperTest {
 		personMapper.updatePerson(person);
 	}
 
-	// TODO: This fails, Investigate - does update also insert?
-//	@Test(expected=PersistenceException.class)
-//	public void should_update_person_invalid_id() {
-//
-//		// setup
-//		final Person person = MapperTestHelper.createValidPerson(true);
-//		person.setId(1_000L);
-//
-//		// run test
-//		personMapper.updatePerson(person);
-//	}
+	@Test
+	public void should_update_person_invalid_id() {
+
+		// setup
+		final Person person = MapperTestHelper.createValidPerson(true);
+		person.setId(1_000L);
+
+		// run test
+		final int rowsUpdated = personMapper.updatePerson(person);
+
+		// assert results
+		assertEquals(0, rowsUpdated);
+	}
 
 	@Test
 	public void should_delete_person() {
