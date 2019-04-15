@@ -40,9 +40,10 @@ public class PetResource {
 
 	@POST
 	@Produces("application/json")
-	public Pet createPet(final Pet pet) {
+	public Response createPet(final Pet pet) {
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on name?
-		return petService.createPet(pet);
+		final Pet created = petService.createPet(pet);
+		return Response.status(created == null ? Response.Status.BAD_REQUEST : Response.Status.OK).entity(created).build();
 	}
 
 	@PUT

@@ -77,6 +77,16 @@ public class PetEndpointIntegrationTest extends IntegrationHelperTest {
 	}
 
 	@Test
+	public void should_create_pet_invalid_person_id_endpoint() throws IOException {
+		final String json = createPetJson(1_000L, "Sgt Pepper");
+		final HttpURLConnection connection = makeRequest("pets", "POST", json);
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(400, connection.getResponseCode());
+		assertNull(returnedJson);
+	}
+
+	@Test
 	public void should_update_pet_endpoint() throws IOException {
 		final Long id = 1L;
 		final Long personId = 10L;
