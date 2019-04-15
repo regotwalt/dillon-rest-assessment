@@ -148,72 +148,46 @@ public class PersonMapperTest extends AbstractMapperTest {
 	public void should_delete_person() {
 
 		// setup
+		final Long personId = 3L;
 		final int petCount = 33;
 		final Long petId = 23L;
-		final Person person = personMapper.getPersonById(3L);
 
 		// pre test asserts
 		assertEquals(petCount, petMapper.getPetList().size());
 		assertNotNull(petMapper.getPetById(petId));
 
 		// run test
-		final int rowsDeleted = personMapper.deletePerson(person);
+		final int rowsDeleted = personMapper.deletePerson(personId);
 
 		// assert results
 		assertEquals(1, rowsDeleted);
 		assertEquals(9, personMapper.getPersonList().size());
-		assertNull(personMapper.getPersonById(person.getId()));
+		assertNull(personMapper.getPersonById(personId));
 
 		assertEquals(petCount - 1, petMapper.getPetList().size());
 		assertNull(petMapper.getPetById(petId));
 	}
 
-	@Test
-	public void should_delete_person_modified_person() {
-
-		// setup: createValidPerson does not match DB entity except for ID
-		final Person person = MapperTestHelper.createValidPerson(true);
-
-		// run test
-		final int rowsDeleted = personMapper.deletePerson(person);
-
-		// assert results
-		assertEquals(1, rowsDeleted);
-		assertEquals(9, personMapper.getPersonList().size());
-		assertNull(personMapper.getPersonById(person.getId()));
-	}
-
 	@Test(expected=PersistenceException.class)
-	public void should_delete_person_null_person() {
+	public void should_delete_person_null_person_id() {
 
 		// run test
 		personMapper.deletePerson(null);
 	}
 
-	@Test(expected=PersistenceException.class)
-	public void should_delete_person_without_id() {
-
-		// setup: creating without ID
-		final Person person = MapperTestHelper.createValidPerson(false);
-
-		// run test
-		personMapper.deletePerson(person);
-	}
-
 	@Test
 	public void should_delete_person_with_invalid_id() {
 
-		// setup: creating without ID
-		final Person person = MapperTestHelper.createValidPerson(false);
-		person.setId(1_000L);
+		// setup
+		final Long personId = 1_000L;
 
 		// run test
-		final int rowsDeleted = personMapper.deletePerson(person);
+		final int rowsDeleted = personMapper.deletePerson(personId);
 
 		// assert results
 		assertEquals(0, rowsDeleted);
 		assertEquals(10, personMapper.getPersonList().size());
-		assertNull(personMapper.getPersonById(person.getId()));
+		assertNull(personMapper.getPersonById(personId));
 	}
 
 }

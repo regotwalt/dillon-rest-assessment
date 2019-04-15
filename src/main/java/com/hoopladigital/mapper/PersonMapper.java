@@ -9,5 +9,5 @@ public interface PersonMapper {
 	Person getPersonById(Long id);
 	int createPerson(Person person);
 	int updatePerson(Person person);
-	int deletePerson(Person person);
+	int deletePerson(Long id);
 }

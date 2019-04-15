@@ -43,10 +43,10 @@ public class PersonService {
 		return person;
 	}
 
-	public boolean deletePerson(Person person) {
-		if (person == null) return false;
+	public boolean deletePerson(final Long personId) {
+		if (personId == null) return false;
 		try {
-			final int numberDeleted = personMapper.deletePerson(person);
+			final int numberDeleted = personMapper.deletePerson(personId);
 			// Future: Log WARN if numberDeleted>1 - would be unexpected
 			return numberDeleted > 0;
 		}

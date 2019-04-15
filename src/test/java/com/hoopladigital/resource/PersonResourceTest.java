@@ -242,13 +242,13 @@ public class PersonResourceTest extends AbstractTest {
 
 		// setup
 		final Long id = 5L;
-		when(personService.deletePerson(any(Person.class))).thenReturn(true);
+		when(personService.deletePerson(id)).thenReturn(true);
 
 		// run test
 		final Response response = personResource.deletePerson(id);
 
 		// verify mocks / capture results
-		verify(personService).deletePerson(any(Person.class)); // TODO: Improve this
+		verify(personService).deletePerson(id);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
@@ -260,13 +260,13 @@ public class PersonResourceTest extends AbstractTest {
 
 		// setup
 		final Long id = 5L;
-		when(personService.deletePerson(any(Person.class))).thenReturn(false);
+		when(personService.deletePerson(id)).thenReturn(false);
 
 		// run test
 		final Response response = personResource.deletePerson(id);
 
 		// verify mocks / capture results
-		verify(personService).deletePerson(any(Person.class)); // TODO: Improve this
+		verify(personService).deletePerson(id);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results

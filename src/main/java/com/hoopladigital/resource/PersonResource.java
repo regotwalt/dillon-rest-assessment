@@ -72,10 +72,7 @@ public class PersonResource {
 	@Path("{id}")
 	@Produces("application/json")
 	public Response deletePerson(@PathParam("id") Long id) {
-		final Person person = new Person(); // TODO: Ugly
-		person.setId(id);
-
-		final boolean deleted = personService.deletePerson(person);
+		final boolean deleted = personService.deletePerson(id);
 		return Response.status(deleted ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND).build();
 	}
 
