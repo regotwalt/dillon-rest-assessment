@@ -38,7 +38,6 @@ public class PersonResource {
 	@Path("{id}")
 	@Produces("application/json")
 	public Response getPersonById(@PathParam("id") Long id) {
-		// TODO: Test endpoint
 		final Person person = personService.getPersonById(id);
 		return Response.status(person == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(person).build();
 	}
@@ -48,17 +47,14 @@ public class PersonResource {
 	@Produces("application/json")
 	public Response getPetListByPersonId(@PathParam("id") Long personId) {
 		final List<Pet> pets = petService.getPetListByPersonId(personId);
-		if (!pets.isEmpty() || personService.getPersonById(personId) != null) {
-			return Response.status(Response.Status.OK).entity(pets).build();
-		}
-		return Response.status(Response.Status.NOT_FOUND).entity(null).build();
+		final boolean validRequest = !pets.isEmpty() || personService.getPersonById(personId) != null;
+		return Response.status(validRequest ? Response.Status.OK : Response.Status.NOT_FOUND).entity(validRequest ? pets : null).build();
 	}
 
 	@POST
 	@Produces("application/json")
 	public Person createPerson(Person person) {
-		// TODO: Test endpoint
-		// TODO: MISSING REQUIREMENTS: Should any validation be done on first/middle/last names?
+		// TODO: MISSING REQUIREMENTS: Should any validation be done on Person (specifically first/middle/last name)?
 		return personService.createPerson(person);
 	}
 
@@ -66,9 +62,7 @@ public class PersonResource {
 	@Path("{id}")
 	@Produces("application/json")
 	public Response updatePerson(@PathParam("id") Long id, Person person) {
-
-		// TODO: Test endpoint
-		// TODO: MISSING REQUIREMENTS: Should any validation be done on first/middle/last names?
+		// TODO: MISSING REQUIREMENTS: Should any validation be done on Person (specifically first/middle/last name - id covered)?
 		person.setId(id);
 		final Person updated = personService.updatePerson(person);
 		return Response.status(updated == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(updated).build();
@@ -78,12 +72,10 @@ public class PersonResource {
 	@Path("{id}")
 	@Produces("application/json")
 	public Response deletePerson(@PathParam("id") Long id) {
-		// TODO: Test endpoint
-		final Person person = new Person();
+		final Person person = new Person(); // TODO: Ugly
 		person.setId(id);
 
 		final boolean deleted = personService.deletePerson(person);
-
 		return Response.status(deleted ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND).build();
 	}
 

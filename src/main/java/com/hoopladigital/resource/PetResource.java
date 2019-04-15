@@ -27,7 +27,6 @@ public class PetResource {
 	@GET
 	@Produces("application/json")
 	public List<Pet> getPetList() {
-		// TODO: Test endpoint
 		return petService.getPetList();
 	}
 
@@ -35,7 +34,6 @@ public class PetResource {
 	@Path("{id}")
 	@Produces("application/json")
 	public Response getPetById(@PathParam("id") Long id) {
-		// TODO: Test endpoint
 		final Pet pet = petService.getPetById(id);
 		return Response.status(pet == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(pet).build();
 	}
@@ -43,7 +41,6 @@ public class PetResource {
 	@POST
 	@Produces("application/json")
 	public Pet createPet(Pet pet) {
-		// TODO: Test endpoint
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on name?
 		return petService.createPet(pet);
 	}
@@ -52,8 +49,6 @@ public class PetResource {
 	@Path("{id}")
 	@Produces("application/json")
 	public Response updatePet(@PathParam("id") Long id, Pet pet) {
-
-		// TODO: Test endpoint
 		// TODO: MISSING REQUIREMENT: Should any validation be done on name?
 		pet.setId(id);
 		final Pet updated = petService.updatePet(pet);
@@ -64,8 +59,7 @@ public class PetResource {
 	@Path("{id}")
 	@Produces("application/json")
 	public Response deletePet(@PathParam("id") Long id) {
-		// TODO: Test endpoint
-		Pet pet = new Pet();
+		Pet pet = new Pet(); // TODO: Ugly
 		pet.setId(id);
 
 		final boolean deleted = petService.deletePet(pet);
