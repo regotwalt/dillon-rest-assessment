@@ -24,6 +24,7 @@ public class PersonServiceTest extends AbstractTest {
 
 	@Mock
 	private PersonMapper personMapper;
+
 	private PersonService personService;
 
 	@Before

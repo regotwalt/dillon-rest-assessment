@@ -21,17 +21,17 @@ public class PersonService {
 		return personMapper.getPersonList();
 	}
 
-	public Person getPersonById(Long id) {
+	public Person getPersonById(final Long id) {
 		return personMapper.getPersonById(id);
 	}
 
-	public Person createPerson(Person person) {
+	public Person createPerson(final Person person) {
 		if (person == null) return null;
 		personMapper.createPerson(person);
 		return person;
 	}
 
-	public Person updatePerson(Person person) {
+	public Person updatePerson(final Person person) {
 		if (person == null) return null;
 		try {
 			final int rowsUpdated = personMapper.updatePerson(person);

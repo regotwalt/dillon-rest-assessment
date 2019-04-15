@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface PetMapper {
 	List<Pet> getPetList();
-	List<Pet> getPetListByPersonId(Long personId);
-	Pet getPetById(Long id);
-	int createPet(Pet pet);
-	int updatePet(Pet pet);
-	int deletePet(Long id);
+	List<Pet> getPetListByPersonId(final Long personId);
+	Pet getPetById(final Long id);
+	int createPet(final Pet pet);
+	int updatePet(final Pet pet);
+	int deletePet(final Long id);
 }

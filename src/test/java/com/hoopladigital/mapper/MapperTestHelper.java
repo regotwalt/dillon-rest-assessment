@@ -5,7 +5,7 @@ import com.hoopladigital.bean.Pet;
 
 class MapperTestHelper {
 
-	static Person createValidPerson(boolean withId) {
+	static Person createValidPerson(final boolean withId) {
 		final Person person = new Person();
 		person.setFirstName("John");
 		person.setMiddleName("James");
@@ -14,7 +14,7 @@ class MapperTestHelper {
 		return person;
 	}
 
-	static Pet createValidPet(boolean withId) {
+	static Pet createValidPet(final boolean withId) {
 		final Pet pet = new Pet();
 		pet.setPersonId(1L);
 		pet.setName("Scruffy");

@@ -22,7 +22,7 @@ public class PetService {
 		return petMapper.getPetList();
 	}
 
-	public List<Pet> getPetListByPersonId(Long personId) {
+	public List<Pet> getPetListByPersonId(final Long personId) {
 		try {
 			return petMapper.getPetListByPersonId(personId);
 		}
@@ -31,11 +31,11 @@ public class PetService {
 		}
 	}
 
-	public Pet getPetById(Long id) {
+	public Pet getPetById(final Long id) {
 		return petMapper.getPetById(id);
 	}
 
-	public Pet createPet(Pet pet) {
+	public Pet createPet(final Pet pet) {
 		if (pet == null) return null;
 		try {
 			petMapper.createPet(pet);
@@ -46,7 +46,7 @@ public class PetService {
 		return pet;
 	}
 
-	public Pet updatePet(Pet pet) {
+	public Pet updatePet(final Pet pet) {
 		if (pet == null) return null;
 		try {
 			final int rowsUpdated = petMapper.updatePet(pet);

@@ -15,7 +15,7 @@ public class PetEndpointIntegrationTest extends IntegrationHelperTest {
 		return createPetJson(personId, name, null);
 	}
 
-	private String createPetJson(final Long personId, final String name, Long id) {
+	private String createPetJson(final Long personId, final String name, final Long id) {
 		final StringBuilder builder = new StringBuilder("{");
 		if (id != null) {
 			builder.append("\"id\":").append(id).append(",");

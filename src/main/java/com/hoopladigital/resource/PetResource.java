@@ -33,14 +33,14 @@ public class PetResource {
 	@GET
 	@Path("{id}")
 	@Produces("application/json")
-	public Response getPetById(@PathParam("id") Long id) {
+	public Response getPetById(@PathParam("id") final Long id) {
 		final Pet pet = petService.getPetById(id);
 		return Response.status(pet == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(pet).build();
 	}
 
 	@POST
 	@Produces("application/json")
-	public Pet createPet(Pet pet) {
+	public Pet createPet(final Pet pet) {
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on name?
 		return petService.createPet(pet);
 	}
@@ -48,7 +48,7 @@ public class PetResource {
 	@PUT
 	@Path("{id}")
 	@Produces("application/json")
-	public Response updatePet(@PathParam("id") Long id, Pet pet) {
+	public Response updatePet(@PathParam("id") final Long id, final Pet pet) {
 		// TODO: MISSING REQUIREMENT: Should any validation be done on name?
 		pet.setId(id);
 		final Pet updated = petService.updatePet(pet);
@@ -58,7 +58,7 @@ public class PetResource {
 	@DELETE
 	@Path("{id}")
 	@Produces("application/json")
-	public Response deletePet(@PathParam("id") Long id) {
+	public Response deletePet(@PathParam("id") final Long id) {
 		final boolean deleted = petService.deletePet(id);
 		return Response.status(deleted ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND).build();
 	}

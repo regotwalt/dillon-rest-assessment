@@ -24,6 +24,7 @@ public class PetServiceTest extends AbstractTest {
 
 	@Mock
 	private PetMapper petMapper;
+
 	private PetService petService;
 
 	@Before

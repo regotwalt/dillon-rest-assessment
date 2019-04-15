@@ -37,7 +37,7 @@ public class PersonResource {
 	@GET
 	@Path("{id}")
 	@Produces("application/json")
-	public Response getPersonById(@PathParam("id") Long id) {
+	public Response getPersonById(@PathParam("id") final Long id) {
 		final Person person = personService.getPersonById(id);
 		return Response.status(person == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(person).build();
 	}
@@ -45,7 +45,7 @@ public class PersonResource {
 	@GET
 	@Path("{id}/pets")
 	@Produces("application/json")
-	public Response getPetListByPersonId(@PathParam("id") Long personId) {
+	public Response getPetListByPersonId(@PathParam("id") final Long personId) {
 		final List<Pet> pets = petService.getPetListByPersonId(personId);
 		final boolean validRequest = !pets.isEmpty() || personService.getPersonById(personId) != null;
 		return Response.status(validRequest ? Response.Status.OK : Response.Status.NOT_FOUND).entity(validRequest ? pets : null).build();
@@ -53,7 +53,7 @@ public class PersonResource {
 
 	@POST
 	@Produces("application/json")
-	public Person createPerson(Person person) {
+	public Person createPerson(final Person person) {
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on Person (specifically first/middle/last name)?
 		return personService.createPerson(person);
 	}
@@ -61,7 +61,7 @@ public class PersonResource {
 	@PUT
 	@Path("{id}")
 	@Produces("application/json")
-	public Response updatePerson(@PathParam("id") Long id, Person person) {
+	public Response updatePerson(@PathParam("id") final Long id, final Person person) {
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on Person (specifically first/middle/last name - id covered)?
 		person.setId(id);
 		final Person updated = personService.updatePerson(person);
@@ -71,7 +71,7 @@ public class PersonResource {
 	@DELETE
 	@Path("{id}")
 	@Produces("application/json")
-	public Response deletePerson(@PathParam("id") Long id) {
+	public Response deletePerson(@PathParam("id") final Long id) {
 		final boolean deleted = personService.deletePerson(id);
 		return Response.status(deleted ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND).build();
 	}
