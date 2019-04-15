@@ -5,6 +5,8 @@ import com.hoopladigital.bean.Pet;
 
 class MapperTestHelper {
 
+	static final String over50name = "123456789012345678901234567890123456789012345678901";
+
 	static Person createValidPerson(final boolean withId) {
 		final Person person = new Person();
 		person.setFirstName("John");

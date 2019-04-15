@@ -120,6 +120,24 @@ public class PersonServiceTest extends AbstractTest {
 	}
 
 	@Test
+	public void should_create_person_invalid_person() {
+
+		// setup
+		final Person person = new Person();
+		doThrow(new PersistenceException()).when(personMapper).createPerson(person);
+
+		// run test
+		final Person actual = personService.createPerson(person);
+
+		// verify mocks / capture values
+		verify(personMapper).createPerson(person);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
 	public void should_update_person() {
 
 		// setup

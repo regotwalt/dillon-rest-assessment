@@ -99,6 +99,36 @@ public class PersonEndpointIntegrationTest extends IntegrationHelperTest {
 	}
 
 	@Test
+	public void should_create_person_large_first_name_endpoint() throws IOException {
+		final String json = createPersonJson(over50name, "Jacob", "Smith");
+		final HttpURLConnection connection = makeRequest("people", "POST", json);
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(400, connection.getResponseCode());
+		assertNull(returnedJson);
+	}
+
+	@Test
+	public void should_create_person_large_middle_name_endpoint() throws IOException {
+		final String json = createPersonJson("John", over50name, "Smith");
+		final HttpURLConnection connection = makeRequest("people", "POST", json);
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(400, connection.getResponseCode());
+		assertNull(returnedJson);
+	}
+
+	@Test
+	public void should_create_person_large_last_name_endpoint() throws IOException {
+		final String json = createPersonJson("John", "Jacob", over50name);
+		final HttpURLConnection connection = makeRequest("people", "POST", json);
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(400, connection.getResponseCode());
+		assertNull(returnedJson);
+	}
+
+	@Test
 	public void should_update_person_endpoint() throws IOException {
 		final Long id = 1L;
 		final String firstName = "John";
@@ -126,6 +156,42 @@ public class PersonEndpointIntegrationTest extends IntegrationHelperTest {
 		final String returnedJson = readResponseJson(connection);
 
 		assertEquals(404, connection.getResponseCode());
+		assertNull(returnedJson);
+	}
+
+	@Test
+	public void should_update_person_large_first_name_endpoint() throws IOException {
+		final Long id = 1L;
+		final String json = createPersonJson(over50name, "Jacob", "Smith");
+
+		final HttpURLConnection connection = makeRequest("people/" + id, "PUT", json);
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(404, connection.getResponseCode()); // TODO: Improve - make 400 if invalid but 404 if id invalid
+		assertNull(returnedJson);
+	}
+
+	@Test
+	public void should_update_person_large_middle_name_endpoint() throws IOException {
+		final Long id = 1L;
+		final String json = createPersonJson("John", over50name, "Smith");
+
+		final HttpURLConnection connection = makeRequest("people/" + id, "PUT", json);
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(404, connection.getResponseCode()); // TODO: Improve - make 400 if invalid but 404 if id invalid
+		assertNull(returnedJson);
+	}
+
+	@Test
+	public void should_update_person_large_last_name_endpoint() throws IOException {
+		final Long id = 1L;
+		final String json = createPersonJson("John", "Jacob", over50name);
+
+		final HttpURLConnection connection = makeRequest("people/" + id, "PUT", json);
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(404, connection.getResponseCode()); // TODO: Improve - make 400 if invalid but 404 if id invalid
 		assertNull(returnedJson);
 	}
 

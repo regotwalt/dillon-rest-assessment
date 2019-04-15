@@ -27,7 +27,12 @@ public class PersonService {
 
 	public Person createPerson(final Person person) {
 		if (person == null) return null;
-		personMapper.createPerson(person);
+		try {
+			personMapper.createPerson(person);
+		}
+		catch (PersistenceException pe) {
+			return null;
+		}
 		return person;
 	}
 

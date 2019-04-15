@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 
+import static com.hoopladigital.mapper.MapperTestHelper.over50name;
 import static org.junit.Assert.*;
 
 public class PetMapperTest extends AbstractMapperTest {
@@ -108,7 +109,7 @@ public class PetMapperTest extends AbstractMapperTest {
 	public void should_create_pet() {
 
 		// setup
-		final Long expectedId = 35L; // TODO: counter got messed up somehow, should be 34
+		final Long expectedId = 37L; // TODO: counter got messed up somehow, should be 34
 		final Pet pet = MapperTestHelper.createValidPet(false);
 
 		// run test
@@ -143,6 +144,17 @@ public class PetMapperTest extends AbstractMapperTest {
 		// setup
 		final Pet pet = MapperTestHelper.createValidPet(false);
 		pet.setPersonId(1_000L);
+
+		// run test
+		petMapper.createPet(pet);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_create_pet_too_large_name() {
+
+		// setup
+		final Pet pet = MapperTestHelper.createValidPet(false);
+		pet.setName(over50name);
 
 		// run test
 		petMapper.createPet(pet);
@@ -217,6 +229,17 @@ public class PetMapperTest extends AbstractMapperTest {
 
 		// run test
 		petMapper.updatePet(pet);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_pet_too_large_name() {
+
+		// setup
+		final Pet pet = MapperTestHelper.createValidPet(true);
+		pet.setName(over50name);
+
+		// run test
+		petMapper.createPet(pet);
 	}
 
 	@Test

@@ -11,6 +11,8 @@ import java.util.function.Consumer;
 
 class IntegrationHelperTest {
 
+	final String over50name = "123456789012345678901234567890123456789012345678901";
+
 	HttpURLConnection makeRequest(final String endpoint, final String httpMethod) throws IOException {
 		return connect(endpoint, httpMethod, (connection -> {}));
 	}

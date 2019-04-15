@@ -122,9 +122,6 @@ public class PetResourceTest extends AbstractTest {
 
 		// setup
 		final Pet provided = new Pet();
-		provided.setName("Jack");
-		provided.setPersonId(1L);
-
 		when(petService.createPet(provided)).thenReturn(null);
 
 		// run test

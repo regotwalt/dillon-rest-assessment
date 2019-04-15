@@ -156,32 +156,10 @@ public class PetServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_create_pet_null_person_id() {
+	public void should_create_pet_invalid_pet() {
 
 		// setup
 		final Pet pet = new Pet();
-		pet.setPersonId(null);
-
-		doThrow(new PersistenceException()).when(petMapper).createPet(pet);
-
-		// run test
-		final Pet actual = petService.createPet(pet);
-
-		// verify mocks / capture values
-		verify(petMapper).createPet(pet);
-		verifyNoMoreInteractions(allDeclaredMocks(this));
-
-		// assert results
-		assertNull(actual);
-	}
-
-	@Test
-	public void should_create_pet_invalid_person_id() {
-
-		// setup
-		final Pet pet = new Pet();
-		pet.setPersonId(1_000L);
-
 		doThrow(new PersistenceException()).when(petMapper).createPet(pet);
 
 		// run test

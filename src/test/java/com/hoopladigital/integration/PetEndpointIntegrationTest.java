@@ -87,6 +87,16 @@ public class PetEndpointIntegrationTest extends IntegrationHelperTest {
 	}
 
 	@Test
+	public void should_create_pet_large_name_endpoint() throws IOException {
+		final String json = createPetJson(10L, over50name);
+		final HttpURLConnection connection = makeRequest("pets", "POST", json);
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(400, connection.getResponseCode());
+		assertNull(returnedJson);
+	}
+
+	@Test
 	public void should_update_pet_endpoint() throws IOException {
 		final Long id = 1L;
 		final Long personId = 10L;
@@ -112,6 +122,18 @@ public class PetEndpointIntegrationTest extends IntegrationHelperTest {
 		final String returnedJson = readResponseJson(connection);
 
 		assertEquals(404, connection.getResponseCode());
+		assertNull(returnedJson);
+	}
+
+	@Test
+	public void should_update_pet_large_name_endpoint() throws IOException {
+		final Long id = 1L;
+		final String json = createPetJson(10L, over50name);
+
+		final HttpURLConnection connection = makeRequest("pets/" + id, "PUT", json);
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(404, connection.getResponseCode()); // TODO: Improve - make 400 if invalid but 404 if id invalid
 		assertNull(returnedJson);
 	}
 

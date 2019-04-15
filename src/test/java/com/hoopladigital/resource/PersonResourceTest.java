@@ -53,7 +53,6 @@ public class PersonResourceTest extends AbstractTest {
 
 		// assert results
 		assertEquals(expected, actual);
-
 	}
 
 	@Test
@@ -179,14 +178,34 @@ public class PersonResourceTest extends AbstractTest {
 		when(personService.createPerson(provided)).thenReturn(expected);
 
 		// run test
-		final Person actual = personResource.createPerson(provided);
+		final Response response = personResource.createPerson(provided);
 
 		// verify mocks / capture values
 		verify(personService).createPerson(provided);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertEquals(expectedId, actual.getId());
+		assertEquals(200, response.getStatus());
+		assertEquals(expected, response.getEntity());
+	}
+
+	@Test
+	public void should_create_person_invalid_request() throws Exception {
+
+		// setup
+		final Person provided = new Person();
+		when(personService.createPerson(provided)).thenReturn(null);
+
+		// run test
+		final Response response = personResource.createPerson(provided);
+
+		// verify mocks / capture values
+		verify(personService).createPerson(provided);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(400, response.getStatus());
+		assertNull(response.getEntity());
 	}
 
 	@Test

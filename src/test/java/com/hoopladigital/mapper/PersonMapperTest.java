@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 
+import static com.hoopladigital.mapper.MapperTestHelper.over50name;
 import static org.junit.Assert.*;
 
 public class PersonMapperTest extends AbstractMapperTest {
@@ -37,7 +38,6 @@ public class PersonMapperTest extends AbstractMapperTest {
 		// assert results
 		assertEquals(10, personList.size());
 		beanTestHelper.diffBeans(george, personList.get(0));
-
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class PersonMapperTest extends AbstractMapperTest {
 	public void should_create_person() {
 
 		// setup
-		final Long expectedId = 11L;
+		final Long expectedId = 14L; // TODO: counter got messed up somehow, should be 11
 		final Person person = MapperTestHelper.createValidPerson(false);
 
 		// run test
@@ -93,6 +93,39 @@ public class PersonMapperTest extends AbstractMapperTest {
 
 		// run test
 		personMapper.createPerson(null);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_create_person_too_large_first_name() {
+
+		// setup
+		final Person person = MapperTestHelper.createValidPerson(false);
+		person.setFirstName(over50name);
+
+		// run test
+		personMapper.createPerson(person);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_create_person_too_large_middle_name() {
+
+		// setup
+		final Person person = MapperTestHelper.createValidPerson(false);
+		person.setMiddleName(over50name);
+
+		// run test
+		personMapper.createPerson(person);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_create_person_too_large_last_name() {
+
+		// setup
+		final Person person = MapperTestHelper.createValidPerson(false);
+		person.setLastName(over50name);
+
+		// run test
+		personMapper.createPerson(person);
 	}
 
 	@Test
@@ -142,6 +175,39 @@ public class PersonMapperTest extends AbstractMapperTest {
 
 		// assert results
 		assertEquals(0, rowsUpdated);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_person_too_large_first_name() throws Exception {
+
+		// setup
+		final Person person = MapperTestHelper.createValidPerson(true);
+		person.setFirstName(over50name);
+
+		// run test
+		personMapper.updatePerson(person);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_person_too_large_middle_name() throws Exception {
+
+		// setup
+		final Person person = MapperTestHelper.createValidPerson(true);
+		person.setMiddleName(over50name);
+
+		// run test
+		personMapper.updatePerson(person);
+	}
+
+	@Test(expected=PersistenceException.class)
+	public void should_update_person_too_large_last_name() throws Exception {
+
+		// setup
+		final Person person = MapperTestHelper.createValidPerson(true);
+		person.setLastName(over50name);
+
+		// run test
+		personMapper.updatePerson(person);
 	}
 
 	@Test

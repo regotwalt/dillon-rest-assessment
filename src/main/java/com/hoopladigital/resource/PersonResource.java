@@ -53,9 +53,10 @@ public class PersonResource {
 
 	@POST
 	@Produces("application/json")
-	public Person createPerson(final Person person) {
+	public Response createPerson(final Person person) {
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on Person (specifically first/middle/last name)?
-		return personService.createPerson(person);
+		final Person created = personService.createPerson(person);
+		return Response.status(created == null ? Response.Status.BAD_REQUEST : Response.Status.OK).entity(created).build();
 	}
 
 	@PUT
@@ -63,6 +64,7 @@ public class PersonResource {
 	@Produces("application/json")
 	public Response updatePerson(@PathParam("id") final Long id, final Person person) {
 		// TODO: MISSING REQUIREMENTS: Should any validation be done on Person (specifically first/middle/last name - id covered)?
+		// TODO: Improvement - return 400 if invalid person but 404 if invalid id
 		person.setId(id);
 		final Person updated = personService.updatePerson(person);
 		return Response.status(updated == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(updated).build();

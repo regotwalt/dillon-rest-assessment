@@ -51,6 +51,7 @@ public class PetResource {
 	@Produces("application/json")
 	public Response updatePet(@PathParam("id") final Long id, final Pet pet) {
 		// TODO: MISSING REQUIREMENT: Should any validation be done on name?
+		// TODO: Improvement - return 400 if invalid pet but 404 if invalid id
 		pet.setId(id);
 		final Pet updated = petService.updatePet(pet);
 		return Response.status(updated == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(updated).build();
