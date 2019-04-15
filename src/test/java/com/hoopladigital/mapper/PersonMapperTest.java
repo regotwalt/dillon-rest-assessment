@@ -17,6 +17,9 @@ public class PersonMapperTest extends AbstractMapperTest {
 	@Inject
 	private PersonMapper personMapper;
 
+	@Inject
+	private PetMapper petMapper;
+
 	@Test
 	public void should_get_person_list() throws Exception {
 
@@ -145,7 +148,13 @@ public class PersonMapperTest extends AbstractMapperTest {
 	public void should_delete_person() {
 
 		// setup
+		final int petCount = 33;
+		final Long petId = 23L;
 		final Person person = personMapper.getPersonById(3L);
+
+		// pre test asserts
+		assertEquals(petCount, petMapper.getPetList().size());
+		assertNotNull(petMapper.getPetById(petId));
 
 		// run test
 		final int rowsDeleted = personMapper.deletePerson(person);
@@ -154,6 +163,9 @@ public class PersonMapperTest extends AbstractMapperTest {
 		assertEquals(1, rowsDeleted);
 		assertEquals(9, personMapper.getPersonList().size());
 		assertNull(personMapper.getPersonById(person.getId()));
+
+		assertEquals(petCount - 1, petMapper.getPetList().size());
+		assertNull(petMapper.getPetById(petId));
 	}
 
 	@Test
