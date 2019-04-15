@@ -167,13 +167,13 @@ public class PetResourceTest extends AbstractTest {
 
 		// setup
 		final Long id = 5L;
-		when(petService.deletePet(any(Pet.class))).thenReturn(true);
+		when(petService.deletePet(id)).thenReturn(true);
 
 		// run test
 		final Response response = petResource.deletePet(id);
 
 		// verify mocks / capture values
-		verify(petService).deletePet(any(Pet.class)); // TODO: Improve this
+		verify(petService).deletePet(id);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
@@ -185,13 +185,13 @@ public class PetResourceTest extends AbstractTest {
 
 		// setup
 		final Long id = 5L;
-		when(petService.deletePet(any(Pet.class))).thenReturn(false);
+		when(petService.deletePet(id)).thenReturn(false);
 
 		// run test
 		final Response response = petResource.deletePet(id);
 
 		// verify mocks / capture values
-		verify(petService).deletePet(any(Pet.class)); // TODO: Improve this
+		verify(petService).deletePet(id);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results

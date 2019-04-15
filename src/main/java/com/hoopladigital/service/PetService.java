@@ -58,10 +58,10 @@ public class PetService {
 		return pet;
 	}
 
-	public boolean deletePet(Pet pet) {
-		if (pet == null) return false;
+	public boolean deletePet(final Long id) {
+		if (id == null) return false;
 		try {
-			final int numberDeleted = petMapper.deletePet(pet);
+			final int numberDeleted = petMapper.deletePet(id);
 			// Future: Log WARN if numberDeleted>1 - would be unexpected
 			return numberDeleted > 0;
 		}

@@ -10,5 +10,5 @@ public interface PetMapper {
 	Pet getPetById(Long id);
 	int createPet(Pet pet);
 	int updatePet(Pet pet);
-	int deletePet(Pet pet);
+	int deletePet(Long id);
 }

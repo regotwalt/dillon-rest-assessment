@@ -59,11 +59,7 @@ public class PetResource {
 	@Path("{id}")
 	@Produces("application/json")
 	public Response deletePet(@PathParam("id") Long id) {
-		Pet pet = new Pet(); // TODO: Ugly
-		pet.setId(id);
-
-		final boolean deleted = petService.deletePet(pet);
-
+		final boolean deleted = petService.deletePet(id);
 		return Response.status(deleted ? Response.Status.NO_CONTENT : Response.Status.NOT_FOUND).build();
 	}
 

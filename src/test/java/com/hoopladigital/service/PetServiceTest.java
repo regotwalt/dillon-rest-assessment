@@ -247,14 +247,14 @@ public class PetServiceTest extends AbstractTest {
 	public void should_delete_pet() {
 
 		// setup
-		final Pet pet = new Pet();
-		when(petMapper.deletePet(pet)).thenReturn(1);
+		final Long id = 1L;
+		when(petMapper.deletePet(id)).thenReturn(1);
 
 		// run test
-		final boolean deleted = petService.deletePet(pet);
+		final boolean deleted = petService.deletePet(id);
 
 		// verify mocks / capture values
-		verify(petMapper).deletePet(pet);
+		verify(petMapper).deletePet(id);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
@@ -265,14 +265,14 @@ public class PetServiceTest extends AbstractTest {
 	public void should_delete_pet_no_deletion() {
 
 		// setup
-		final Pet pet = new Pet();
-		when(petMapper.deletePet(pet)).thenReturn(0);
+		final Long id = 1L;
+		when(petMapper.deletePet(id)).thenReturn(0);
 
 		// run test
-		final boolean deleted = petService.deletePet(pet);
+		final boolean deleted = petService.deletePet(id);
 
 		// verify mocks / capture values
-		verify(petMapper).deletePet(pet);
+		verify(petMapper).deletePet(id);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
@@ -296,14 +296,14 @@ public class PetServiceTest extends AbstractTest {
 	public void should_delete_pet_invalid_pet() {
 
 		// setup
-		final Pet pet = new Pet();
-		doThrow(new PersistenceException()).when(petMapper).deletePet(pet);
+		final Long id = 1_000L;
+		doThrow(new PersistenceException()).when(petMapper).deletePet(id);
 
 		// run test
-		final boolean deleted = petService.deletePet(pet);
+		final boolean deleted = petService.deletePet(id);
 
 		// verify mocks / capture values
-		verify(petMapper).deletePet(pet);
+		verify(petMapper).deletePet(id);
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
