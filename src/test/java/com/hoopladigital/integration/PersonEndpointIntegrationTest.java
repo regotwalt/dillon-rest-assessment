@@ -34,7 +34,7 @@ public class PersonEndpointIntegrationTest extends IntegrationHelperTest {
 		final String returnedJson = readResponseJson(connection);
 
 		assertEquals(200, connection.getResponseCode());
-		// TODO: Test precise response once rollbacks working
+		// TODO: Test full response once rollbacks are working (i.e. tests not dependent on external server)
 		assertTrue(returnedJson.contains(createPersonJson("Thomas", null, "Jefferson", 3L)));
 		assertTrue(returnedJson.contains(createPersonJson("John", "Quincy", "Adams", 6L)));
 	}
@@ -72,6 +72,17 @@ public class PersonEndpointIntegrationTest extends IntegrationHelperTest {
 	}
 
 	@Test
+	public void should_get_pet_list_by_person_id_no_pets_endpoint() throws IOException {
+		final Long personId = 4L;
+		final HttpURLConnection connection = makeRequest("people/" + personId + "/pets", "GET");
+		final String returnedJson = readResponseJson(connection);
+		final String expectedJson = "[]";
+
+		assertEquals(200, connection.getResponseCode());
+		assertEquals(expectedJson, returnedJson);
+	}
+
+	@Test
 	public void should_get_pet_list_by_person_id_invalid_id_endpoint() throws IOException {
 		final Long personId = 1_000L;
 		final HttpURLConnection connection = makeRequest("people/" + personId + "/pets", "GET");
@@ -86,16 +97,25 @@ public class PersonEndpointIntegrationTest extends IntegrationHelperTest {
 		final String json = createPersonJson("John", "Jacob", "Smith");
 		final HttpURLConnection connection = makeRequest("people", "POST", json);
 		final String returnedJson = readResponseJson(connection);
-		// TODO: Uncomment the following once rollbacks are working (and can delete startsWith, endsWith)
-		// TODO: final String expectedJson = createPersonJson("John", "Jacob", "Smith", 11L);
+		// TODO: Uncomment the following once rollbacks are working (also delete expectedJsonStart, expectedJsonEnd)
+		// final String expectedJson = createPersonJson("John", "Jacob", "Smith", 11L);
 		final String expectedJsonStart = "{\"id\":";
 		final String expectedJsonEnd = ",\"firstName\":\"John\",\"middleName\":\"Jacob\",\"lastName\":\"Smith\"}";
 
 		assertEquals(200, connection.getResponseCode());
-		// TODO: Uncomment the following once rollbacks are working (and can delete startsWith, endsWith)
-		// TODO: assertEquals(expectedJson, returnedJson);
+		// TODO: Uncomment the following once rollbacks are working (also delete the last 2 asserts)
+		// assertEquals(expectedJson, returnedJson);
 		assertTrue(returnedJson.startsWith(expectedJsonStart));
 		assertTrue(returnedJson.endsWith(expectedJsonEnd));
+	}
+
+	@Test
+	public void should_create_person_empty_person_endpoint() throws IOException {
+		final HttpURLConnection connection = makeRequest("people", "POST", "{}");
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(400, connection.getResponseCode());
+		assertNull(returnedJson);
 	}
 
 	@Test
@@ -142,6 +162,15 @@ public class PersonEndpointIntegrationTest extends IntegrationHelperTest {
 
 		assertEquals(200, connection.getResponseCode());
 		assertEquals(expectedJson, returnedJson);
+	}
+
+	@Test
+	public void should_update_person_empty_person_endpoint() throws IOException {
+		final HttpURLConnection connection = makeRequest("people/1", "PUT", "{}");
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(400, connection.getResponseCode());
+		assertNull(returnedJson);
 	}
 
 	@Test

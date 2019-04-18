@@ -33,7 +33,7 @@ public class PetEndpointIntegrationTest extends IntegrationHelperTest {
 		final String returnedJson = readResponseJson(connection);
 
 		assertEquals(200, connection.getResponseCode());
-		// TODO: Test precise response once rollbacks working
+		// TODO: Test full response once rollbacks are working (i.e. tests not dependent on external server)
 		assertTrue(returnedJson.contains(createPetJson(1L, "Lady Rover", 14L)));
 		assertTrue(returnedJson.contains(createPetJson(7L, "Lady Nashville", 26L)));
 	}
@@ -64,16 +64,25 @@ public class PetEndpointIntegrationTest extends IntegrationHelperTest {
 		final String json = createPetJson(10L, "Sgt Pepper");
 		final HttpURLConnection connection = makeRequest("pets", "POST", json);
 		final String returnedJson = readResponseJson(connection);
-		// TODO: Uncomment the following once rollbacks are working (and can delete startsWith, endsWith)
-		// TODO: final String expectedJson = createPetJson(10L, "Sgt Pepper", 34L);
+		// TODO: Uncomment the following once rollbacks are working (also delete expectedJsonStart, expectedJsonEnd)
+		// final String expectedJson = createPetJson(10L, "Sgt Pepper", 34L);
 		final String expectedJsonStart = "{\"id\":";
 		final String expectedJsonEnd = ",\"personId\":10,\"name\":\"Sgt Pepper\"}";
 
 		assertEquals(200, connection.getResponseCode());
-		// TODO: Uncomment the following once rollbacks are working (and can delete startsWith, endsWith)
-		// TODO: assertEquals(expectedJson, returnedJson);
+		// TODO: Uncomment the following once rollbacks are working (also delete the last 2 asserts)
+		// assertEquals(expectedJson, returnedJson);
 		assertTrue(returnedJson.startsWith(expectedJsonStart));
 		assertTrue(returnedJson.endsWith(expectedJsonEnd));
+	}
+
+	@Test
+	public void should_create_pet_empty_pet_endpoint() throws IOException {
+		final HttpURLConnection connection = makeRequest("pets", "POST", "{}");
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(400, connection.getResponseCode());
+		assertNull(returnedJson);
 	}
 
 	@Test
@@ -109,6 +118,15 @@ public class PetEndpointIntegrationTest extends IntegrationHelperTest {
 
 		assertEquals(200, connection.getResponseCode());
 		assertEquals(expectedJson, returnedJson);
+	}
+
+	@Test
+	public void should_update_pet_empty_pet_endpoint() throws IOException {
+		final HttpURLConnection connection = makeRequest("pets/1", "PUT", "{}");
+		final String returnedJson = readResponseJson(connection);
+
+		assertEquals(400, connection.getResponseCode());
+		assertNull(returnedJson);
 	}
 
 	@Test
