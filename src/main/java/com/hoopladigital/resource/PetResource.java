@@ -41,7 +41,6 @@ public class PetResource {
 	@POST
 	@Produces("application/json")
 	public Response createPet(final Pet pet) {
-		// TODO: MISSING REQUIREMENTS: Should any validation be done on name?
 		final Pet created = petService.createPet(pet);
 		return Response.status(created == null ? Response.Status.BAD_REQUEST : Response.Status.OK).entity(created).build();
 	}
@@ -50,11 +49,11 @@ public class PetResource {
 	@Path("{id}")
 	@Produces("application/json")
 	public Response updatePet(@PathParam("id") final Long id, final Pet pet) {
-		// TODO: MISSING REQUIREMENT: Should any validation be done on name?
-		// TODO: Improvement - return 400 if invalid pet but 404 if invalid id
-		pet.setId(id);
+		pet.setId(id); // Assuring ID is set according to path parameter specified
 		final Pet updated = petService.updatePet(pet);
-		return Response.status(updated == null ? Response.Status.NOT_FOUND : Response.Status.OK).entity(updated).build();
+		final boolean idInvalid = updated == null && petService.getPetById(id) == null;
+		final Response.Status status = idInvalid ? Response.Status.NOT_FOUND : (updated == null ? Response.Status.BAD_REQUEST : Response.Status.OK);
+		return Response.status(status).entity(updated).build();
 	}
 
 	@DELETE

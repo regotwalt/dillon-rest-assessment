@@ -70,7 +70,7 @@ public class PetResourceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_get_pet_by_id_invalid_id() {
+	public void should_get_pet_by_id_not_found() {
 
 		// setup
 		final Long queriedId = 1_000L;
@@ -118,7 +118,7 @@ public class PetResourceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_create_pet_invalid_request() {
+	public void should_create_pet_no_creation() {
 
 		// setup
 		final Pet provided = new Pet();
@@ -160,7 +160,7 @@ public class PetResourceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_update_pet_invalid_request() {
+	public void should_update_pet_no_updation() {
 
 		// setup
 		final Pet pet = new Pet();
@@ -169,12 +169,39 @@ public class PetResourceTest extends AbstractTest {
 		pet.setPersonId(1L);
 
 		when(petService.updatePet(pet)).thenReturn(null);
+		when(petService.getPetById(pet.getId())).thenReturn(pet);
 
 		// run test
 		final Response response = petResource.updatePet(pet.getId(), pet);
 
 		// verify mocks / capture values
 		verify(petService).updatePet(pet);
+		verify(petService).getPetById(pet.getId());
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert result
+		assertEquals(400, response.getStatus());
+		assertNull(response.getEntity());
+	}
+
+	@Test
+	public void should_update_pet_invalid_pet() {
+
+		// setup
+		final Pet pet = new Pet();
+		pet.setId(1L);
+		pet.setName("Fuzzy Bear");
+		pet.setPersonId(1L);
+
+		when(petService.updatePet(pet)).thenReturn(null);
+		when(petService.getPetById(pet.getId())).thenReturn(null);
+
+		// run test
+		final Response response = petResource.updatePet(pet.getId(), pet);
+
+		// verify mocks / capture values
+		verify(petService).updatePet(pet);
+		verify(petService).getPetById(pet.getId());
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert result
@@ -201,7 +228,7 @@ public class PetResourceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_delete_pet_invalid_request() {
+	public void should_delete_pet_no_deletion() {
 
 		// setup
 		final Long id = 5L;

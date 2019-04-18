@@ -48,7 +48,6 @@ public class PersonServiceTest extends AbstractTest {
 
 		// assert results
 		assertEquals(expected, actual);
-
 	}
 
 	@Test
@@ -71,11 +70,24 @@ public class PersonServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_get_person_by_id_invalid_id() {
+	public void should_get_person_by_id_null_id() {
+
+		// run test
+		final Person actual = personService.getPersonById(null);
+
+		// verify mocks / capture values
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
+	public void should_get_person_by_id_exception() {
 
 		// setup
-		final Long queriedId = 1_000L;
-		when(personMapper.getPersonById(queriedId)).thenReturn(null);
+		final Long queriedId = 1L;
+		doThrow(new PersistenceException()).when(personMapper).getPersonById(queriedId);
 
 		// run test
 		final Person actual = personService.getPersonById(queriedId);
@@ -103,7 +115,25 @@ public class PersonServiceTest extends AbstractTest {
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertNotNull(actual);
+		assertEquals(person, actual);
+	}
+
+	@Test
+	public void should_create_person_no_creation() {
+
+		// setup
+		final Person person = new Person();
+		when(personMapper.createPerson(person)).thenReturn(0);
+
+		// run test
+		final Person actual = personService.createPerson(person);
+
+		// verify mocks / capture values
+		verify(personMapper).createPerson(person);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
 	}
 
 	@Test
@@ -120,7 +150,7 @@ public class PersonServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_create_person_invalid_person() {
+	public void should_create_person_exception() {
 
 		// setup
 		final Person person = new Person();
@@ -156,6 +186,24 @@ public class PersonServiceTest extends AbstractTest {
 	}
 
 	@Test
+	public void should_update_person_no_updation() {
+
+		// setup
+		final Person expected = new Person();
+		when(personMapper.updatePerson(expected)).thenReturn(0);
+
+		// run test
+		final Person actual = personService.updatePerson(expected);
+
+		// verify mocks / capture values
+		verify(personMapper).updatePerson(expected);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
 	public void should_update_person_null_person() {
 
 		// run test
@@ -169,7 +217,7 @@ public class PersonServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_update_person_invalid_person() {
+	public void should_update_person_exception() {
 
 		// setup
 		final Person person = new Person();
@@ -236,7 +284,7 @@ public class PersonServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_delete_person_invalid_person() {
+	public void should_delete_person_exception() {
 
 		// setup
 		final Long id = 1L;

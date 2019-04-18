@@ -76,7 +76,7 @@ public class PersonResourceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_get_person_by_id_invalid_id() {
+	public void should_get_person_by_id_not_found() {
 
 		// setup
 		final Long queriedId = 1_000L;
@@ -190,7 +190,7 @@ public class PersonResourceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_create_person_invalid_request() throws Exception {
+	public void should_create_person_no_creation() throws Exception {
 
 		// setup
 		final Person provided = new Person();
@@ -233,7 +233,7 @@ public class PersonResourceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_update_person_invalid_request() {
+	public void should_update_person_no_updation() {
 
 		// setup
 		final Person person = new Person();
@@ -243,12 +243,40 @@ public class PersonResourceTest extends AbstractTest {
 		person.setLastName("Gaultier");
 
 		when(personService.updatePerson(person)).thenReturn(null);
+		when(personService.getPersonById(person.getId())).thenReturn(person);
 
 		// run test
 		final Response response = personResource.updatePerson(person.getId(), person);
 
 		// verify mocks / capture results
 		verify(personService).updatePerson(person);
+		verify(personService).getPersonById(person.getId());
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertEquals(400, response.getStatus());
+		assertNull(response.getEntity());
+	}
+
+	@Test
+	public void should_update_person_invalid_person() {
+
+		// setup
+		final Person person = new Person();
+		person.setId(1L);
+		person.setFirstName("Jean");
+		person.setMiddleName("Paul");
+		person.setLastName("Gaultier");
+
+		when(personService.updatePerson(person)).thenReturn(null);
+		when(personService.getPersonById(person.getId())).thenReturn(null);
+
+		// run test
+		final Response response = personResource.updatePerson(person.getId(), person);
+
+		// verify mocks / capture results
+		verify(personService).updatePerson(person);
+		verify(personService).getPersonById(person.getId());
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
@@ -275,7 +303,7 @@ public class PersonResourceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_delete_person_invalid_request() {
+	public void should_delete_person_no_deletion() {
 
 		// setup
 		final Long id = 5L;

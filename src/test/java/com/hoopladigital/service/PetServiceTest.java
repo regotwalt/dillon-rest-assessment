@@ -70,7 +70,20 @@ public class PetServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_get_pet_list_by_person_id_failure() {
+	public void should_get_pet_list_by_person_id_null_person_id() {
+
+		// run test
+		final List<Pet> actual = petService.getPetListByPersonId(null);
+
+		// verify mocks / capture values
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertTrue(actual.isEmpty());
+	}
+
+	@Test
+	public void should_get_pet_list_by_person_id_exception() {
 
 		// setup
 		final Long personId = 100L;
@@ -107,11 +120,24 @@ public class PetServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_get_pet_by_id_invalid_id() {
+	public void should_get_pet_by_id_null_id() {
+
+		// run test
+		final Pet actual = petService.getPetById(null);
+
+		// verify mocks / capture values
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
+	public void should_get_pet_by_id_exception() {
 
 		// setup
-		final Long queriedId = 1_000L;
-		when(petMapper.getPetById(queriedId)).thenReturn(null);
+		final Long queriedId = 1L;
+		doThrow(new PersistenceException()).when(petMapper).getPetById(queriedId);
 
 		// run test
 		final Pet actual = petService.getPetById(queriedId);
@@ -139,7 +165,25 @@ public class PetServiceTest extends AbstractTest {
 		verifyNoMoreInteractions(allDeclaredMocks(this));
 
 		// assert results
-		assertNotNull(actual);
+		assertEquals(pet, actual);
+	}
+
+	@Test
+	public void should_create_pet_no_creation() {
+
+		// setup
+		final Pet pet = new Pet();
+		when(petMapper.createPet(pet)).thenReturn(0);
+
+		// run test
+		final Pet actual = petService.createPet(pet);
+
+		// verify mocks / capture values
+		verify(petMapper).createPet(pet);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
 	}
 
 	@Test
@@ -156,7 +200,7 @@ public class PetServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_create_pet_invalid_pet() {
+	public void should_create_pet_exception() {
 
 		// setup
 		final Pet pet = new Pet();
@@ -192,6 +236,24 @@ public class PetServiceTest extends AbstractTest {
 	}
 
 	@Test
+	public void should_update_pet_no_updation() {
+
+		// setup
+		final Pet expected = new Pet();
+		when(petMapper.updatePet(expected)).thenReturn(0);
+
+		// run test
+		final Pet actual = petService.updatePet(expected);
+
+		// verify mocks / capture values
+		verify(petMapper).updatePet(expected);
+		verifyNoMoreInteractions(allDeclaredMocks(this));
+
+		// assert results
+		assertNull(actual);
+	}
+
+	@Test
 	public void should_update_pet_null_pet() {
 
 		// run test
@@ -205,7 +267,7 @@ public class PetServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_update_pet_invalid_pet() {
+	public void should_update_pet_exception() {
 
 		// setup
 		final Pet pet = new Pet();
@@ -272,7 +334,7 @@ public class PetServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void should_delete_pet_invalid_pet() {
+	public void should_delete_pet_exception() {
 
 		// setup
 		final Long id = 1_000L;

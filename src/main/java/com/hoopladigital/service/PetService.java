@@ -23,49 +23,64 @@ public class PetService {
 	}
 
 	public List<Pet> getPetListByPersonId(final Long personId) {
+		if (personId == null) return Collections.emptyList();
 		try {
 			return petMapper.getPetListByPersonId(personId);
 		}
 		catch (PersistenceException pe) {
+			// Improvement: Log error
 			return Collections.emptyList();
 		}
 	}
 
 	public Pet getPetById(final Long id) {
-		return petMapper.getPetById(id);
+		if (id == null) return null;
+		try {
+			return petMapper.getPetById(id);
+		}
+		catch (PersistenceException pe) {
+			// Improvement: Log error
+			return null;
+		}
 	}
 
 	public Pet createPet(final Pet pet) {
 		if (pet == null) return null;
 		try {
-			petMapper.createPet(pet);
+			int rowsCreated = petMapper.createPet(pet);
+			// Future - log if rowsCreated is not 0 or 1 (unexpected)
+			if (rowsCreated == 0) return null;
+			return pet;
 		}
 		catch (PersistenceException pe) {
+			// Improvement: Log error
 			return null;
 		}
-		return pet;
 	}
 
 	public Pet updatePet(final Pet pet) {
 		if (pet == null) return null;
 		try {
 			final int rowsUpdated = petMapper.updatePet(pet);
+			// Future - log if rowsUpdated is not 0 or 1 (unexpected)
 			if (rowsUpdated == 0) return null;
+			return pet;
 		}
 		catch (PersistenceException pe) {
+			// Improvement: Log error
 			return null;
 		}
-		return pet;
 	}
 
 	public boolean deletePet(final Long id) {
 		if (id == null) return false;
 		try {
 			final int numberDeleted = petMapper.deletePet(id);
-			// Future: Log WARN if numberDeleted>1 - would be unexpected
+			// Future - log if numberDeleted is not 0 or 1 (unexpected)
 			return numberDeleted > 0;
 		}
 		catch (PersistenceException pe) {
+			// Improvement: Log error
 			return false;
 		}
 	}

@@ -167,7 +167,7 @@ public class PersonEndpointIntegrationTest extends IntegrationHelperTest {
 		final HttpURLConnection connection = makeRequest("people/" + id, "PUT", json);
 		final String returnedJson = readResponseJson(connection);
 
-		assertEquals(404, connection.getResponseCode()); // TODO: Improve - make 400 if invalid but 404 if id invalid
+		assertEquals(400, connection.getResponseCode());
 		assertNull(returnedJson);
 	}
 
@@ -179,7 +179,7 @@ public class PersonEndpointIntegrationTest extends IntegrationHelperTest {
 		final HttpURLConnection connection = makeRequest("people/" + id, "PUT", json);
 		final String returnedJson = readResponseJson(connection);
 
-		assertEquals(404, connection.getResponseCode()); // TODO: Improve - make 400 if invalid but 404 if id invalid
+		assertEquals(400, connection.getResponseCode());
 		assertNull(returnedJson);
 	}
 
@@ -191,7 +191,7 @@ public class PersonEndpointIntegrationTest extends IntegrationHelperTest {
 		final HttpURLConnection connection = makeRequest("people/" + id, "PUT", json);
 		final String returnedJson = readResponseJson(connection);
 
-		assertEquals(404, connection.getResponseCode()); // TODO: Improve - make 400 if invalid but 404 if id invalid
+		assertEquals(400, connection.getResponseCode());
 		assertNull(returnedJson);
 	}
 
